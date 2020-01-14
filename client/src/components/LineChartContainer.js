@@ -18,7 +18,9 @@ class LineChartContainer extends Component {
 					LineChartContainer!!
 				</p>
 
-				<LineChartTile />
+				<div className="line-chart-container">
+					<LineChartTile />
+				</div>
 
 			</div>
 

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 
-// import components or dependencies
-import Chart from 'chart.js';
-
 
 class Tile extends Component {
 
