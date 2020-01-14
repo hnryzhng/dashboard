@@ -6,14 +6,14 @@ import Chart from 'chart.js';
 // import components
 import Tile from './Tile.js';
 
+
 class LineChartTile extends Component {
 
 	constructor(props) {
 		
 		super(props);
 
-		// this.lineChartRef = React.createRef();
-
+		this.lineChartRef = React.createRef();
 
 	};
 
@@ -31,16 +31,23 @@ class LineChartTile extends Component {
 
 	drawChart = () => {
 		// select DOM reference to this component
-		// const currentChartRef = this.lineChartRef.current.getContext("2d");
+		const currentChartRef = this.lineChartRef.current.getContext("2d");
 
-		var ctx = document.getElementById('line-chart').getContext('2d');
 
 		// define chart options
 		const chartOptions = {
 			// custom options
+
+			scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero: true
+			            }
+			        }]
+			}
+		
 		};
 
-		// define main chart settings
 		const chartSettings = {
 			type: 'bar',
 			data: {
@@ -67,21 +74,12 @@ class LineChartTile extends Component {
 			        borderWidth: 1
 			    }]
 			},
-			options: {
-			    scales: {
-			        yAxes: [{
-			            ticks: {
-			                beginAtZero: true
-			            }
-			        }]
-			    }
-			}
-		}
+			options: chartOptions
+        };
+
 
 		// create chart object by binding with reference and initializing with main settings
-		const chartObject = new Chart({ ctx, chartSettings });
-
-		return chartObject;
+		const myLineChart = new Chart(currentChartRef, chartSettings);
 
 	}
 
@@ -89,19 +87,12 @@ class LineChartTile extends Component {
 
 	render(){
 
-		// this.drawChart();
-
 		return(
 
 			<div>
 
-				<canvas id="line-chart"></canvas>
-				
-
-				<p> LineChartTile!! </p>
-				
-
-				<Tile className="tile" />
+				<canvas id="line-chart" ref={ this.lineChartRef }></canvas>
+			
 
 
 			</div>
