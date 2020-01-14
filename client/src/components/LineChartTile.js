@@ -12,7 +12,7 @@ class LineChartTile extends Component {
 		
 		super(props);
 
-		this.lineChartRef = React.createRef();
+		// this.lineChartRef = React.createRef();
 
 
 	};
@@ -20,18 +20,20 @@ class LineChartTile extends Component {
 	componentDidMount() {
 		// executes after component renders
 
-		//this.drawChart();		
+		this.drawChart();		
 	}
 
 	componentDidUpdate() {
 		// executes upon each update
 
-		//this.drawChart();
+		this.drawChart();
 	}
 
 	drawChart = () => {
 		// select DOM reference to this component
-		const currentChartRef = this.lineChartRef.current.getContext("2d");
+		// const currentChartRef = this.lineChartRef.current.getContext("2d");
+
+		var ctx = document.getElementById('line-chart').getContext('2d');
 
 		// define chart options
 		const chartOptions = {
@@ -40,21 +42,44 @@ class LineChartTile extends Component {
 
 		// define main chart settings
 		const chartSettings = {
-			type: "line", 
+			type: 'bar',
 			data: {
-				datasets: [
-					{
-						label: 'TEST',
-						data: [50, 60, 70],
-
-					}
-				]
+			    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+			    datasets: [{
+			        label: '# of Votes',
+			        data: [12, 19, 3, 5, 2, 3],
+			        backgroundColor: [
+			            'rgba(255, 99, 132, 0.2)',
+			            'rgba(54, 162, 235, 0.2)',
+			            'rgba(255, 206, 86, 0.2)',
+			            'rgba(75, 192, 192, 0.2)',
+			            'rgba(153, 102, 255, 0.2)',
+			            'rgba(255, 159, 64, 0.2)'
+			        ],
+			        borderColor: [
+			            'rgba(255, 99, 132, 1)',
+			            'rgba(54, 162, 235, 1)',
+			            'rgba(255, 206, 86, 1)',
+			            'rgba(75, 192, 192, 1)',
+			            'rgba(153, 102, 255, 1)',
+			            'rgba(255, 159, 64, 1)'
+			        ],
+			        borderWidth: 1
+			    }]
 			},
-			options: chartOptions
+			options: {
+			    scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero: true
+			            }
+			        }]
+			    }
+			}
 		}
 
 		// create chart object by binding with reference and initializing with main settings
-		const chartObject = new Chart({ currentChartRef, chartSettings });
+		const chartObject = new Chart({ ctx, chartSettings });
 
 		return chartObject;
 
@@ -64,19 +89,20 @@ class LineChartTile extends Component {
 
 	render(){
 
-		this.drawChart();
+		// this.drawChart();
 
 		return(
 
 			<div>
 
+				<canvas id="line-chart"></canvas>
+				
+
 				<p> LineChartTile!! </p>
+				
 
-				<Tile className="tile">
+				<Tile className="tile" />
 
-					<canvas id="line-chart" ref={ this.lineChartRef } />
-
-				</Tile>
 
 			</div>
 
