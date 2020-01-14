@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
+// import styles
+import '../styles.css'
+
+// import components
+import LineChartContainer from './LineChartContainer.js';
 
 class App extends Component {
 
+  // top-level configurations: tile layout/arrangement
+
   state = {
   }
+
 
   render() {
     
     return (
       <div>
-      	<p>Hello World</p>
+      	<p> APP!! </p>
 
-
+        <LineChartContainer />
 
       </div>
     );
