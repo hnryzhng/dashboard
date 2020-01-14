@@ -20,18 +20,18 @@ class LineChartTile extends Component {
 	componentDidMount() {
 		// executes after component renders
 
-		this.drawChart();		
+		//this.drawChart();		
 	}
 
 	componentDidUpdate() {
 		// executes upon each update
 
-		this.drawChart();
+		//this.drawChart();
 	}
 
 	drawChart = () => {
 		// select DOM reference to this component
-		const currentChartRef = this.lineChartRef.current//.getContext("2d");
+		const currentChartRef = this.lineChartRef.current.getContext("2d");
 
 		// define chart options
 		const chartOptions = {
@@ -74,7 +74,7 @@ class LineChartTile extends Component {
 
 				<Tile className="tile">
 
-					<canvas ref={ this.lineChartRef } />
+					<canvas id="line-chart" ref={ this.lineChartRef } />
 
 				</Tile>
 
