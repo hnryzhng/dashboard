@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const cors = require("cors");
+const path = require("path");
 
 require('dotenv').config()	// load env vars
 
