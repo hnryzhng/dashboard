@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 // import styles
 import '../styles.css'
 
+
+
 // import components
+import Tile from './Tile.js';
 import LineChartContainer from './LineChartContainer.js';
 
 class App extends Component {
@@ -18,9 +21,8 @@ class App extends Component {
     
     return (
       <div>
-      	<p> APP!! </p>
 
-        <LineChartContainer />
+        <Tile />
 
       </div>
     );

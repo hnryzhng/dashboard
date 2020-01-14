@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // import components
-import LineChartTile from './LineChartTile.js'
+import BarChartTile from './BarChartTile.js'
 
-class LineChartContainer extends Component {
+class BarChartContainer extends Component {
 
 	// container for fetching and updating data
 	// tile configurations
@@ -12,8 +12,8 @@ class LineChartContainer extends Component {
 	render(){
 		return(
 
-			<div className="line-chart-container">
-				<LineChartTile />
+			<div className="bar-chart-container">
+				<BarChartTile />
 			</div>
 
 
@@ -29,4 +29,4 @@ class LineChartContainer extends Component {
 
 **/
 
-export default LineChartContainer;
+export default BarChartContainer;

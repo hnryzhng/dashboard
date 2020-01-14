@@ -1,11 +1,6 @@
-.line-chart-container {
+.tile {
 	height: 50vh;
 	width: 50vw;
 	background: white;
-}
-
-#line-chart {
-	height: 500px;
-	width: 400px;
-	border: 1px solid #000;
+	border: 1px solid black;
 }

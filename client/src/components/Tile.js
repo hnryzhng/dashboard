@@ -1,31 +1,35 @@
 import React, { Component } from 'react';
 
+// import components
+import LineChartContainer from './LineChartContainer.js';
+
+import BarChartContainer from './BarChartContainer.js';
 
 class Tile extends Component {
 
 	render(){
 		return(
+			<>
 
-			<div>
+				<div className="tile">
 
-				<p> Tile!! </p>
+					<LineChartContainer />
 
-			</div>
+				</div>
+
+				<div className="tile">
+
+					<BarChartContainer />
+
+				</div>
+
+			</>
 
 		)
 
 	}
 
 }
-
-/**
-
-// Define default props of tile
-
-// Define prop types sent to this component
-
-
-**/
 
 
 export default Tile;
