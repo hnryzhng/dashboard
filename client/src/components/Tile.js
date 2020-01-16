@@ -7,9 +7,20 @@ import BarChartContainer from './BarChartContainer.js';
 
 class Tile extends Component {
 
+	// TASK: maybe in future, don't need component files for each type of chart
+	// but a general Chart Tile that renders based on given tile type and appropriate (validated?)
+	// corresponding tile data/options
+	state = {
+		'line': LineChartContainer,
+		'bar': BarChartContainer
+	}
+
 	render(){
-		return(
-			<>
+		/*
+
+				TASK: create an associative array mapping tile types to their respective component files 
+				
+	
 
 				<div className="tile">
 
@@ -20,6 +31,19 @@ class Tile extends Component {
 				<div className="tile">
 
 					<BarChartContainer />
+
+				</div>
+		*/
+
+		console.log("Tile component tile type component", this.props.tileType);
+
+		return(
+			<>
+
+				<div className="tile">
+
+					{ this.state[this.props.tileType] }
+
 
 				</div>
 
