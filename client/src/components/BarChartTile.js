@@ -80,6 +80,11 @@ class BarChartTile extends Component {
 		// create chart object by binding with reference and initializing with main settings
 		const myBarChart = new Chart(currentChartRef, chartSettings);
 
+		if (myBarChart === undefined || myBarChart === null) {
+			console.log("this chart cannot be paired with this data");
+			console.log("my bar chart error object:", myBarChart);
+		}
+
 	}
 
 	render(){

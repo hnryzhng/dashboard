@@ -20,8 +20,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // load tilesList only after render?
-
 
     // if logged in
     // fetch user tiles list data
@@ -35,6 +33,10 @@ class App extends Component {
     var tilesList = this.state.tilesList;
     var tType = this.state.selectedTileType;
     var dID = this.state.selectedDataSourceID;
+
+    // TASK: BOOKMARK
+    // check to see if selected tile type can be paired with selected data source
+    // if tile type in dataSource db record object's forTileTypes array
 
     // check to see if tile with same type and data source already exists
     for (var i=0; i<tilesList.length; i++) {
@@ -65,7 +67,8 @@ class App extends Component {
       console.log("tile object:", tileObject);
 
       // add tile object to list
-      tilesList.push(tileObject)
+      tilesList.push(tileObject);
+      this.setState({ tilesList: tilesList })
       console.log("tiles list:", tilesList);
 
     }
@@ -112,7 +115,13 @@ class App extends Component {
 
         <div id="tiles-container">
 
-          { tilesDisplay }
+          { 
+
+            tilesList.map((tile, index) => {
+                  return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
+            })
+
+          }
 
         </div>
 

@@ -56,6 +56,11 @@ class LineChartTile extends Component {
 		// create chart object by binding with reference and initializing with main settings
 		const myLineChart = new Chart(currentChartRef, chartSettings);
 
+		if (myLineChart === undefined || myLineChart === null) {
+			console.log("this chart cannot be paired with this data");
+			console.log("mylinechart error object:", myLineChart);
+		}
+
 	}
 
 
