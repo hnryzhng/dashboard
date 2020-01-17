@@ -11,8 +11,8 @@ class Tile extends Component {
 	// but a general Chart Tile that renders based on given tile type and appropriate (validated?)
 	// corresponding tile data/options
 	state = {
-		'line': LineChartContainer,
-		'bar': BarChartContainer
+		'line': <LineChartContainer />,
+		'bar': <BarChartContainer />
 	}
 
 	render(){
@@ -36,7 +36,7 @@ class Tile extends Component {
 		*/
 
 		console.log("Tile component tile type component", this.props.tileType);
-
+		console.log("Tile component:", this.state[this.props.tileType]);
 		return(
 			<>
 

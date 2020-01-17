@@ -20,9 +20,13 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // load tilesList only after render?
+
+
     // if logged in
     // fetch user tiles list data
     // load all data into this.state.dataSources based on tiles data source id
+
   }
 
   addTile = () => {
@@ -31,6 +35,14 @@ class App extends Component {
     var tilesList = this.state.tilesList;
     var tType = this.state.selectedTileType;
     var dID = this.state.selectedDataSourceID;
+
+    // check to see if tile with same type and data source already exists
+    for (var i=0; i<tilesList.length; i++) {
+      if (tType === tilesList[i].tileType && dID === tilesList[i].dataSourceID) {
+        console.log("Tile of same type and data source already exists");
+        return
+      }
+    }
 
     // if both selected tile type and data source id are not empty strings
     if (tType.length > 0 && dID.length > 0) {
@@ -45,13 +57,16 @@ class App extends Component {
 
       // TASK: add other tile options based on user selection, possibly tile element itself?
       var tileObject = {
-        tileID: (tID+1).toString(), // TASK temporary: create UUID for particular user? for now, increment based on preceding tile id in tilesList
+        tileID: (tID+1), // TASK temporary: create UUID for particular user? for now, increment based on preceding tile id in tilesList
         tileType: tType,
         dataSourceID: dID
       }
 
+      console.log("tile object:", tileObject);
+
       // add tile object to list
       tilesList.push(tileObject)
+      console.log("tiles list:", tilesList);
 
     }
 
@@ -82,14 +97,14 @@ class App extends Component {
     console.log("selected tile type:", this.state.selectedTileType);
 
     console.log("selected data source:", this.state.selectedDataSourceID);
-
-    console.log("mock data bar data:", JSON.stringify(bardata));
     
     let tilesDisplay;
-
-    tilesDisplay =  this.state.tilesList.map((tile, index) => {
-              return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
-              });
+    const tilesList = this.state.tilesList;
+    if (tilesList.length > 0) {
+      tilesDisplay =  tilesList.map((tile, index) => {
+                  return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
+                });
+    }
 
     return (
       <div>
@@ -118,7 +133,7 @@ class App extends Component {
             <option value="dataSource.id" disabled> "dataSource.title" </option>
           </select>
 
-          <button type="button" onSubmit={ this.addTile() }>Add Tile</button>
+          <button type="button" onClick={ () => { this.addTile() } }>Add Tile</button>
 
         </div>
 
