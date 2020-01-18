@@ -12,17 +12,14 @@ function findDataType(path) {
 	// given path, determine if what type of data it is (
 	// example: csv by looking at extension, json given url and a successful response from API endpoint)
 
-
 	// return dataType
+	return 'csv';
 }
 
-
-var read2json = function(dataPath) {
-
-	// const dataType = findDataType(dataPath);	// csv, API (json)
+var csv2json = function(dataPath) {
 
 	// CSV
-	// TASK: when reading in csv or other external data, check for malicious scripts in cells
+
 	fs.readFile(dataPath, 'utf-8', (err, csvContent) => {
 		if (err) {
 			console.log('error converting csv to JSON:', err);
@@ -37,16 +34,24 @@ var read2json = function(dataPath) {
 		return jsonLinearArray;
 
 	});
-	// If CSV
-	// path: path of csv file
-	// type: csv
 
-	// If API endpoint and JSON object
-	// send request to API endpoint to get data from 
-	// path: url of API endpoint
-	// type: json
-
-	// return jsonObject;
 };
+
+var read2json = function(dataPath) {
+
+	// const dataType = findDataType(dataPath);	// csv, API (return json as is? type json?)
+
+	// TASK: when reading in csv or other external data, check for malicious scripts in cells
+
+	switch(findDataType(dataPath)) {
+		case 'csv':
+			csv2json(dataPath);
+			break
+		case 'api':
+			break
+	}
+
+};
+
 
 module.exports = read2json;
