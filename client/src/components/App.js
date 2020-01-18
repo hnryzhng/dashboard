@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+// import dependencies
+import axios from 'axios';
+
 // import styles
 import '../styles.css'
 
@@ -93,6 +96,16 @@ class App extends Component {
 
   addDataSource = () => {
     // add data source object upon user select
+
+    const baseUrl = 'http://localhost:3001';
+    const dPath = 'testdata.csv';
+
+    axios.post(`${baseUrl}/api/processData`, {
+      dataPath: dPath
+    })
+    .then(response => response.data)
+    .then(data => data)
+    .catch( err => console.log('error:', err));
   }
 
   render() {
@@ -143,6 +156,8 @@ class App extends Component {
           </select>
 
           <button type="button" onClick={ () => { this.addTile() } }>Add Tile</button>
+
+          <button type="button" onClick={ () => { this.addDataSource() } }>ADD DATA</button>
 
         </div>
 

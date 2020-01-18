@@ -2,12 +2,9 @@
 
 // convert JSON into data format for db storage in dataSource collection given path and data type
 
-var jsonObject = require('./read2json.js');
+var convertData = function() {};
 
-var dataProcessor = function() {};
-
-dataProcessor.processLineChart = (jsonObj) => {
-
-
-
+convertData.lineChart = (jsonObj) => {
 }
+
+module.exports = convertData;

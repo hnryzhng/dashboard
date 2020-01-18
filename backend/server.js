@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
 const express = require("express");
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const cors = require("cors");
@@ -15,6 +15,8 @@ require('dotenv').config()	// load env vars
 // INSTANTIATE APP 
 const app = express();
 const api_port = process.env.PORT || 3001;
+
+
 
 /**
 // LOAD MIDDLEWARE
@@ -35,14 +37,20 @@ mongoose
 	.catch((err) => console.log("error connecting to MongoDB:", err));
 **/
 
+// LOAD MIDDLEWARE
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+app.use(cors());
+
+
 // SERVE REACT SCRIPTS
 
-app.use(express.static(path.join(__dirname, '/../', 'client', 'build')));	// Adds the react production build to serve react requests
+// app.use(express.static(path.join(__dirname, '/../', 'client', 'build')));	// Adds the react production build to serve react requests
 
-app.get('*', (req, res) => {
+// app.get('*', (req, res) => {
 	// serve react front-end for all non-specified routes
-	res.sendFile(path.join(__dirname, '/../', 'client', 'build', 'index.html'));
-});
+	// res.sendFile(path.join(__dirname, '/../', 'client', 'build', 'index.html'));
+// });
 
 
 // ROUTES

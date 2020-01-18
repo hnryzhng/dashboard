@@ -1,6 +1,8 @@
 // routes/index.js
 
 var router = require('express').Router();
+var path = require('path');
+
 var processData = require(path.join(__dirname, "/../", "processData", "index.js"));
 
 // ROUTES
@@ -18,9 +20,13 @@ router.post('/routeB', (req, res) => {
 
 **/
 
-router.get('/processData', (req, res) => {
+router.post('/processData', (req, res) => {
 
-	// processData(path);
+	const dataPath = req.body.dataPath;
+
+	// const dataPath = 'testdata.csv';
+
+	processData(dataPath);
 
 });
 
