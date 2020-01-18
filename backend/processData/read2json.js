@@ -1,19 +1,33 @@
 
 // read2json.js
 
-// read data from source into JSON given path and type of data
+// produce JSON object given data
 
-const path = ""	// path or url to read in data
-const type = ""	// csv, API (json)
+function findDataType(path) {
+	// type of data: CSV, JSON (from API endpoint) 
+	// given path, determine if what type of data it is (
+	// example: csv by looking at extension, json given url and a successful response from API endpoint)
 
-// type of data: CSV, JSON (from API endpoint) 
 
-// If CSV
-// path: path of csv file
-// type: csv
+	// return dataType
+}
 
-// If API endpoint and JSON object
-// send request to API endpoint to get data from 
-// path: url of API endpoint
-// type: json
 
+var read2json = function(path) {
+	// const path = ""	// path or url to read in data
+
+	const dataType = findDataType(path);	// csv, API (json)
+
+	// If CSV
+	// path: path of csv file
+	// type: csv
+
+	// If API endpoint and JSON object
+	// send request to API endpoint to get data from 
+	// path: url of API endpoint
+	// type: json
+
+	// return jsonObject;
+};
+
+module.exports = read2json;
