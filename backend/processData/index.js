@@ -1,7 +1,5 @@
 // processData/index.js
 
-const fs = require('fs');
-const csvjson = require('csvjson');
 const path = require('path');
 
 var read2json = require('./read2json.js');
@@ -14,26 +12,13 @@ var storeData = require('./storeData.js');
 // storeData: store converted data object in dataSource collection
 
 var processData = function(dataPath) {
-	console.log('processData dataPath:', dataPath);
+	
+	const fullPath = path.join(__dirname, dataPath);
+	// console.log('processData fullPath:', fullPath);
 
-	const csvPath = path.join(__dirname, dataPath);
-	console.log('csvPath:', csvPath);
+	read2json(fullPath);
 
-	// TASK: when reading in csv or other external data, check for malicious scripts in cells
-
-	fs.readFile('./testdata.csv', 'utf-8', (err, csvContent) => {
-		if (err) {
-			console.log('error converting csv to JSON:', err);
-		}
-
-		console.log('csvContent:', csvContent);
-
-		//const jsonObj = csvjson.toObject(csvContent);
-		//console.log('JSON object from processData csv:', JSON.stringify(jsonObj));
-		//console.log('type of JSON object:', jsonObj);
-
-
-	});
+	
 
 };
 
