@@ -13,7 +13,7 @@ var storeData = path.join(__dirname, 'storeData.js');
 // back end: add chart type and correspondingly processed dataset to generatedDatasets of the dataSource record
 
 
-checkTileTypes() {
+function checkTileTypes() {
 	// example output: ["chart", "bar", "count"]
 
 	// return tileTypesArray
@@ -29,7 +29,7 @@ var convertData = function(jsonLinearArray) {
 		title: "",
 		description: "",
 		data: jsonLinearArray,
-		generatedDatasets: []	// [{ tileType STR, dataset OBJ }, ...]	
+		generated_datasets: []	// [{ tile_type STR, dataset ARRAY of objects }, ...]	
 		// TASK: limit number of datasets depending on permissions
 	}
 
