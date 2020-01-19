@@ -17,7 +17,7 @@ class App extends Component {
 
   state = {
     tilesList: [],  // [{ str tile_id, num tile_index, str tile_type, str dataSource_id, array generated_dataset, (obj tileElement) }]
-    dataSourcesList: [], // [{ str dataSource_id, str dataSource_name }]
+    dataSourcesList: [], // [{ str dataSource_id, str name }]
     selectedTileType: "",
     selectedDataSourceID: ""
   }
@@ -70,6 +70,12 @@ class App extends Component {
 
       console.log("tile object:", tileObject);
 
+      // TASK BOOKMARK
+      // send POST request to appropriate route
+      // generate dataset in backend for particular tile based on user selection of columns or other feature 
+      // create processTileData folder?
+
+      // if successfully stored in db, then... 
       // add tile object to list
       tilesList.push(tileObject);
       this.setState({ tilesList: tilesList })

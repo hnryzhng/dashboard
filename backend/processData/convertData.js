@@ -22,15 +22,17 @@ function checkTileTypes() {
 
 
 var convertData = function(jsonLinearArray) {
+	// TASK: limit number of datasets depending on user permissions
+
+	// TASK BOOKMARK
+	// generate datasets based on user selection of tile type and its columns or other features
 
 	const record = {
-		// id
-		// timestamp
-		title: "",
+		dataSource_id: "",	// TASK: UUID or content hash?
+		name: "",
 		description: "",
-		data: jsonLinearArray,
-		generated_datasets: []	// [{ tile_type STR, dataset ARRAY of objects }, ...]	
-		// TASK: limit number of datasets depending on permissions
+		data: jsonLinearArray
+		// generated_datasets: []	// [{ tile_type STR, dataset ARRAY of objects }, ...]	
 	}
 
 	// storeData(record);

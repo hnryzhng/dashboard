@@ -5,15 +5,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const dataSourceSchema = new Schema(
 	{
-		dataSource_id: {
+		dataSource_id: {	// content hash? 
 			type: String,
 			required: true
 		},
-		dataSource_name: {
+		name: {
 			type: String,
 			required: true
-		}
-		dataset: {
+		},
+		description: {
+			type: String,
+			required: true
+		},
+		data: {
 			type: Array,	// array of objects?	
 			required: true
 		}
