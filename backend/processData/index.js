@@ -3,8 +3,8 @@
 const path = require('path');
 
 var read2json = require('./read2json.js');
-var convertData = require('./convertData.js');
-var storeData = require('./storeData.js');
+// var convertData = require('./convertData.js');
+// var storeData = require('./storeData.js');
 
 // PROCESS DATA FOR CHARTS
 // read2json: read data from source into JSON given path and type of data
@@ -17,8 +17,6 @@ var processData = function(dataPath) {
 	// console.log('processData fullPath:', fullPath);
 
 	read2json(fullPath);
-
-	
 
 };
 
