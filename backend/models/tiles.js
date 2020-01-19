@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+// TASK: limit number of tiles per user?
+
 const Schema = mongoose.Schema;
 const tileSchema = new Schema(
 	{	// current array of tiles in user dashboard
@@ -20,7 +22,7 @@ const tileSchema = new Schema(
 			required: true
 		},
 		generated_dataset: {
-			type: Array,	// processed dataset of particular tile
+			type: Array,	// processed dataset for particular tile
 			required: true
 		}
 	}

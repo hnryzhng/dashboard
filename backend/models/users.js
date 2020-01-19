@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const userSchema = new Schema(
 	{
-		user: {
+		username: {
 			type: String,
 			required: true
 		},
@@ -11,12 +11,12 @@ const userSchema = new Schema(
 			type: String,
 			required: true
 		},
-		dataSourcesList: {
-			type: Array,	// array of dataSource IDs
+		tiles_list: {
+			type: Array,	// array of tile IDs, order determined by tile index
 			required: true
 		},
-		tilesList: {
-			type: Array,
+		dataSources_list: {
+			type: Array,	// array of dataSource IDs
 			required: true
 		},
 		transactions: [{

@@ -16,8 +16,8 @@ class App extends Component {
   // top-level configurations: tile layout/arrangement
 
   state = {
-    tilesList: [],  // [{ str fileID, int tileIndex, str tileType, str dataSourceID, (obj tileElement) }]
-    dataSources: {}, // { str dataSourceID: obj dataSourceObj } OR just pass dataSourceID down to tile chart container, and have it fetch data based on tile id, but this second way would mean that multiple tiles using same data source will load redundant data 
+    tilesList: [],  // [{ str tile_id, num tile_index, str tile_type, str dataSource_id, array generated_dataset, (obj tileElement) }]
+    dataSourcesList: [], // [{ str dataSource_id, str dataSource_name }]
     selectedTileType: "",
     selectedDataSourceID: ""
   }
@@ -25,8 +25,7 @@ class App extends Component {
   componentDidMount() {
 
     // if logged in
-    // fetch user tiles list data
-    // load all data into this.state.dataSources based on tiles data source id
+    // fetch user tiles list and data sources list from user db
 
   }
 
@@ -40,6 +39,8 @@ class App extends Component {
     // TASK: BOOKMARK
     // check to see if selected tile type can be paired with selected data source
     // if tile type in dataSource db record object's forTileTypes array
+
+    // TASK: limits per user?
 
     // check to see if tile with same type and data source already exists
     for (var i=0; i<tilesList.length; i++) {
@@ -96,6 +97,9 @@ class App extends Component {
 
   addDataSource = () => {
     // add data source object upon user select
+
+    // TASK: check if data source name for particular user already exists
+    // TASK: limits per user?
 
     const baseUrl = 'http://localhost:3001';
     const dPath = 'testdata.csv';
