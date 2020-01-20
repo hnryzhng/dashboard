@@ -27,9 +27,12 @@ router.post('/processData', (req, res) => {
 	console.log('datapath:', dataPath);
 	console.log('selectedTileType:', selectedTileType);
 	console.log('objectsArray:', objectsArray);
-	// TASK BOOKMARK: generateDatasets file?
+	// TASK BOOKMARK generateDatasets file?
 
-	// processData(dataPath);
+	// MAYBE
+	// if there is an objectsArray because user uploaded local csv file, then should send straight to generateDatasets => storeData
+	
+	// if given API url to extract and process data, then go to processData(dataPath), read2json, convertData, storeData
 
 
 });

@@ -116,7 +116,12 @@ class App extends Component {
   sendData = () => {
   	console.log('send data');
 
-  	// TASK: if there is a currentDataSource, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
+  	// TASK BOOKMARK: 
+  	// if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
+	// if there is an objectsArray, then should send straight to generateDatasets, then storeData
+	// if given API url to extract and process data, then go to processData(dataPath), read2json, convertData, storeData
+
+
 
   	// sends currentDataSource and user selected col headings to create tile dataset from
 
@@ -131,10 +136,10 @@ class App extends Component {
 		dataPath: dPath,
 		selectedTileType: this.state.selectedTileType,
 		objectsArray: this.state.currentDataSource,
-		currentColumnsArray: currentColumns,
-		currentDataSourceID: 'testdataID',	//this.state.currentDataSourceID;
-		currentDataSourceName: "test data name",	//this.state.currentDataSourceName
-		currentDataDescription: "test data description"	//this.state.currentDataSourceDescription defined by user
+		columnsArray: currentColumns,
+		dataID: 'testdataID',	//this.state.currentDataSourceID;
+		dataName: "test data name",	//this.state.currentDataSourceName
+		dataDescription: "test data description"	//this.state.currentDataSourceDescription defined by user
 	}
 
 	axios.post(`${baseUrl}/api/processData`, record)
