@@ -17,6 +17,8 @@ class App extends Component {
   // top-level configurations: tile layout/arrangement
 
   state = {
+  	user: null,
+  	loggedIn: null,
     tilesList: [],  // [{ str tile_id, num tile_index, str tile_type, str dataSource_id, array generated_dataset, (obj tileElement) }]
     dataSourcesList: [], // [{ str dataSource_id, str name }]
     selectedTileType: "",
@@ -24,7 +26,9 @@ class App extends Component {
     currentDataSource: null,
     currentDataSourceHeadings: [],
     currentDataSourceID: "",
-    currentDataSourceName: ""
+    currentDataSourceName: "",
+    currentDataSourceDescription: "",
+    currentColumnsArray: []
   }
 
   componentDidMount() {
@@ -109,24 +113,68 @@ class App extends Component {
 
   }
 
+  sendData = () => {
+  	console.log('send data');
+
+  	// TASK: if there is a currentDataSource, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
+
+  	// sends currentDataSource and user selected col headings to create tile dataset from
+
+	const baseUrl = 'http://localhost:3001';
+	const dPath = this.state.selectedFile.name;
+	const currentColumns = ['linex', 'liney']	//TASK: this.state.currentColumnsArray after user selects
+
+	console.log('dPath:', dPath);	// example: testdata.csv
+	console.log('currentColumns:', currentColumns);
+
+	const record = {
+		dataPath: dPath,
+		selectedTileType: this.state.selectedTileType,
+		objectsArray: this.state.currentDataSource,
+		currentColumnsArray: currentColumns,
+		currentDataSourceID: 'testdataID',	//this.state.currentDataSourceID;
+		currentDataSourceName: "test data name",	//this.state.currentDataSourceName
+		currentDataDescription: "test data description"	//this.state.currentDataSourceDescription defined by user
+	}
+
+	axios.post(`${baseUrl}/api/processData`, record)
+	.then(response => response.data)
+	.then(data => data)
+	.catch( err => console.log('error:', err));
+
+
+  }
+
+  renderDataDisplay = () => {
+
+  	// TASK: create HTML table from parsed csv: https://www.js-tutorials.com/javascript-tutorial/reading-csv-file-using-javascript-html5/
+    // set state for selected column headings of current data source upon user selection
+	console.log('render data display');
+	// have App render from this.state.currentDataSourceHeadings
+
+  	// this.setState({ currentColumnsArray: []}, () => { this.sendData() } );	
+	this.sendData();
+
+  }
+
   updateDataStates = (results) => {
-		// console.log('papaparsed results data', results.data)
 		const parsedData = results.data;
-		console.log('papaparsed results:', results)
+		// console.log('papaparsed results:', results)
 
-		const selectedFile = this.state.selectedFile;
+		this.setState({ currentDataSource: parsedData }, () => { 
 
-		this.setState({ currentDataSource: parsedData });
-		this.setState({ currentDataSourceHeadings: parsedData[0] });
-		this.setState({ currentDataSourceName: selectedFile.name})
+			console.log('state currentDataSource:', this.state.currentDataSource);
 
+			this.renderDataDisplay();	// create HTML display of data so user can pick which column headings to create dataset from 
+
+		});
+		this.setState({ currentDataSourceHeadings: Object.keys(this.state.currentDataSource[0]) }, () => { console.log('state currentDataSourceHeadings:', this.state.currentDataSourceHeadings) });
+		this.setState({ currentDataSourceName: this.state.selectedFile.name});
+		
 		// TASK BOOKMARK: use content hash to create data source id
 		// hashedID = hashContent function;
 		// this.setState({ currentDataSourceID: hashedID })
-
-		console.log('state currentDataSource:', this.state.currentDataSource)
-		console.log('state currentDataSourceHeadings:', this.state.currentDataSourceHeadings);
-		console.log('state currentDataSourceName:', selectedFile.name);
+		// this.setState({ dataSourcesList: { ...this.state.dataSourcesList, hashedID } })
 		// console.log('state currentDataSourceID:', this.state.currentDataSourceID);
 
   }
@@ -137,33 +185,24 @@ class App extends Component {
     event.preventDefault();
 
     // parse selected csv file
-    // TASK: create HTML table from parsed csv: https://www.js-tutorials.com/javascript-tutorial/reading-csv-file-using-javascript-html5/
-    // set state for selected column headings of current data source
-    console.log("uploaded file:", this.state.selectedFile);
+
+	const selectedFile = this.state.selectedFile;
+    // console.log("uploaded file:", this.state.selectedFile);
     Papa.parse(this.state.selectedFile, {
-    	header: false,
+    	header: true,
 		complete: this.updateDataStates
 	});
 
     // TASK: check if data source name for particular user already exists
     // TASK: limits per user?
 
-    const baseUrl = 'http://localhost:3001';
-    const dPath = 'testdata.csv';
-
-    axios.post(`${baseUrl}/api/processData`, {
-      dataPath: dPath
-    })
-    .then(response => response.data)
-    .then(data => data)
-    .catch( err => console.log('error:', err));
-  }
+  };
 
   render() {
 
-    console.log("selected tile type:", this.state.selectedTileType);
+    // console.log("selected tile type:", this.state.selectedTileType);
 
-    console.log("selected data source:", this.state.currentDataSourceID);
+    // console.log("selected data source:", this.state.currentDataSourceID);
     
     let tilesDisplay;
     const tilesList = this.state.tilesList;

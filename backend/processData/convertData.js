@@ -21,7 +21,7 @@ function checkTileTypes() {
 }
 
 
-var convertData = function(jsonLinearArray) {
+var convertData = function(objectsArray) {
 	// TASK: limit number of datasets depending on user permissions
 
 	// TASK BOOKMARK
@@ -30,8 +30,8 @@ var convertData = function(jsonLinearArray) {
 	const record = {
 		dataSource_id: "",	// TASK: UUID or content hash?
 		name: "",
-		description: "",
-		data: jsonLinearArray
+		description: "",	// twitter, table, etc.
+		data: objectsArray
 		// generated_datasets: []	// should be reserved for processing tile data: [{ tile_type STR, dataset ARRAY of objects }, ...]	
 	}
 

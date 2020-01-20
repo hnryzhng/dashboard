@@ -20,7 +20,7 @@ function findDataType(path) {
 
 var csv2json = async function(dataPath) {
 
-
+		// TASK: MAYBE IRRELEVANT SINCE ALREADY CONVERTED TO ARRAY ON FRONT-END:
 		fs.readFile(dataPath, 'utf-8', (err, csvContent) => {
 			if (err) {
 				console.log('error converting csv to JSON:', err);

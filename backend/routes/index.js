@@ -21,12 +21,16 @@ router.post('/routeB', (req, res) => {
 **/
 
 router.post('/processData', (req, res) => {
+	// get variables from body of POST request
+	const { dataPath, selectedTileType, objectsArray, columnsArray, dataID, dataName, dataDescription } = req.body;
 
-	const dataPath = req.body.dataPath;
+	console.log('datapath:', dataPath);
+	console.log('selectedTileType:', selectedTileType);
+	console.log('objectsArray:', objectsArray);
+	// TASK BOOKMARK: generateDatasets file?
 
-	// const dataPath = 'testdata.csv';
+	// processData(dataPath);
 
-	processData(dataPath);
 
 });
 
