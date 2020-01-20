@@ -54,7 +54,7 @@ class App extends Component {
     if (tType.length > 0 && dID.length > 0) {
 
       let tID;
-      // TASK temporary: create UUID for particular user? for now, increment based on preceding tile id in tilesList
+      // TASK: create UUID for particular user? for now, increment based on preceding tile id in tilesList
       if (tilesList.length > 0) {
         tID = tilesList[tilesList.length-1].tileID;  // last tile ID in list
       } else {
@@ -74,6 +74,7 @@ class App extends Component {
       // send POST request to appropriate route
       // generate dataset in backend for particular tile based on user selection of columns or other feature 
       // create processTileData folder?
+
 
       // if successfully stored in db, then... 
       // add tile object to list

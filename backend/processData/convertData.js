@@ -32,7 +32,7 @@ var convertData = function(jsonLinearArray) {
 		name: "",
 		description: "",
 		data: jsonLinearArray
-		// generated_datasets: []	// [{ tile_type STR, dataset ARRAY of objects }, ...]	
+		// generated_datasets: []	// should be reserved for processing tile data: [{ tile_type STR, dataset ARRAY of objects }, ...]	
 	}
 
 	// storeData(record);
