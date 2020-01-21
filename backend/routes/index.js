@@ -21,19 +21,9 @@ router.post('/routeB', (req, res) => {
 **/
 
 router.post('/processData', (req, res) => {
-	// get variables from body of POST request
-	const { dataPath, selectedTileType, objectsArray, columnsArray, dataID, dataName, dataDescription } = req.body;
 
-	console.log('datapath:', dataPath);
-	console.log('selectedTileType:', selectedTileType);
-	console.log('objectsArray:', objectsArray);
-	// TASK BOOKMARK generateDatasets file?
-
-	// MAYBE
-	// if there is an objectsArray because user uploaded local csv file, then should send straight to generateDatasets => storeData
+	processData(req.body);
 	
-	// if given API url to extract and process data, then go to processData(dataPath), read2json, convertData, storeData
-
 
 });
 

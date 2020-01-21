@@ -118,9 +118,7 @@ class App extends Component {
 
   	// TASK BOOKMARK: 
   	// if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
-	// if there is an objectsArray, then should send straight to generateDatasets, then storeData
-	// if given API url to extract and process data, then go to processData(dataPath), read2json, convertData, storeData
-
+	
 
 
   	// sends currentDataSource and user selected col headings to create tile dataset from
@@ -130,6 +128,7 @@ class App extends Component {
 	const currentColumns = ['linex', 'liney']	//TASK: this.state.currentColumnsArray after user selects
 
 	console.log('dPath:', dPath);	// example: testdata.csv
+	console.log('selected file:', this.state.selectedFile);
 	console.log('currentColumns:', currentColumns);
 
 	const record = {

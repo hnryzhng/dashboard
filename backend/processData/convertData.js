@@ -26,6 +26,7 @@ var convertData = function(objectsArray) {
 
 	// TASK BOOKMARK
 	// generate datasets based on user selection of tile type and its columns or other features
+	// generateDatasets module?
 
 	const record = {
 		dataSource_id: "",	// TASK: UUID or content hash?
