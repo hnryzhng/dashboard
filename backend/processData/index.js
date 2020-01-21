@@ -28,10 +28,12 @@ var processData = function(requestBody) {
 	console.log('selectedTileType:', selectedTileType);
 	console.log('objectsArray:', objectsArray);
 
-	generateDatasets(objectsArray, columnsArray);	// return generated dataset? if async, then nest subsequent modules in generateDatasets module file
-	// convertData()
+	// TASK: have generate datasets do CLEAN DATA? 
+	var newObjectsArray = generateDatasets(objectsArray, columnsArray);	// return generated dataset? if async, then nest subsequent modules in generateDatasets module file
+	// convertData()	// BOOKMARK
 	// storeData()
 
+	console.log("processData module newObjectsArray:", newObjectsArray);
 
 };
 

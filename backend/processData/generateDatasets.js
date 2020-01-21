@@ -1,4 +1,6 @@
 
+// TASK BOOKMARK: have generate datasets do CLEAN DATA?
+
 var generateDatasets = function(objectsArray, columnsArray) {
 
 	// create new dataset from objectsArray with only selected columns from columnsArray
@@ -40,6 +42,8 @@ var generateDatasets = function(objectsArray, columnsArray) {
 	}
 
 	console.log("newObjectsArray:", newObjectsArray);
+
+	return newObjectsArray;
 }
 
 
