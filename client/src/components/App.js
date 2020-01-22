@@ -28,7 +28,7 @@ class App extends Component {
     currentDataSourceID: "",
     currentDataSourceName: "",
     currentDataSourceDescription: "",
-    currentColumnsArray: []
+    selectedColumnsArray: []
   }
 
   componentDidMount() {
@@ -72,7 +72,8 @@ class App extends Component {
 
       // TASK: add other tile options based on user selection, possibly tile element itself?
       var tileObject = {
-        tileID: (tID+1), // TASK temporary: create UUID for particular user? for now, increment based on preceding tile id in tilesList
+        tileID: (tID+1), // TASK temporary: create UUID for particular user? for now, increment based on preceding tile id in tilesList        
+        tileIndex: null,	// 
         tileType: tType,
         dataSourceID: dID
       }
@@ -125,26 +126,28 @@ class App extends Component {
 
 	const baseUrl = 'http://localhost:3001';
 	const dPath = this.state.selectedFile.name;
-	const currentColumns = ['linex', 'liney']	//TASK: this.state.currentColumnsArray after user selects
+	const currentColumns = ['linex', 'liney']	//TASK: this.state.selectedColumnsArray after user selects
 
 	console.log('dPath:', dPath);	// example: testdata.csv
 	console.log('selected file:', this.state.selectedFile);
 	console.log('currentColumns:', currentColumns);
 
 	const record = {
-		dataPath: dPath,
 		selectedTileType: this.state.selectedTileType,
+
 		objectsArray: this.state.currentDataSource,
-		columnsArray: currentColumns,
+		selectedColumnsArray: currentColumns,
+		dataPath: dPath,
 		dataID: 'testdataID',	//this.state.currentDataSourceID;
 		dataName: "test data name",	//this.state.currentDataSourceName
 		dataDescription: "test data description"	//this.state.currentDataSourceDescription defined by user
 	}
 
+	// send POST request
 	axios.post(`${baseUrl}/api/processData`, record)
-	.then(response => response.data)
-	.then(data => data)
-	.catch( err => console.log('error:', err));
+		.then(response => response.data)
+		.then(data => data)
+		.catch( err => console.log('error:', err));
 
 
   }
@@ -156,7 +159,7 @@ class App extends Component {
 	console.log('render data display');
 	// have App render from this.state.currentDataSourceHeadings
 
-  	// this.setState({ currentColumnsArray: []}, () => { this.sendData() } );	
+  	// this.setState({ selectedColumnsArray: []}, () => { this.sendData() } );	
 	this.sendData();
 
   }
@@ -164,6 +167,8 @@ class App extends Component {
   updateDataStates = (results) => {
 		const parsedData = results.data;
 		// console.log('papaparsed results:', results)
+
+		// TASK BOOKMARK: Validate whether selected columns can be used to create the desired tile type chart? 
 
 		this.setState({ currentDataSource: parsedData }, () => { 
 

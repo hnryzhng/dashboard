@@ -3,7 +3,7 @@
 const path = require('path');
 
 var read2json = require('./read2json.js');
-// var convertData = require('./convertData.js');
+var convertData = require('./convertData.js');
 // var storeData = require('./storeData.js');
 var generateDatasets = require('./generateDatasets.js');
 
@@ -15,7 +15,7 @@ var generateDatasets = require('./generateDatasets.js');
 var processData = function(requestBody) {
 	
 	// get variables from body of POST request from processData route
-	const { dataPath, selectedTileType, objectsArray, columnsArray, dataID, dataName, dataDescription } = requestBody;
+	const { selectedTileType, objectsArray, selectedColumnsArray, dataPath, dataID, dataName, dataDescription } = requestBody;
 
 	// MAYBE TASK BOOKMARK
 	// if there is an objectsArray because user uploaded local csv file, then should send straight to generateDatasets => storeData
@@ -26,15 +26,18 @@ var processData = function(requestBody) {
 
 	console.log('datapath:', dataPath);
 	console.log('selectedTileType:', selectedTileType);
+	console.log('selectedColumnsArray:', selectedColumnsArray);
 	console.log('objectsArray:', objectsArray);
 
 	// TASK: have generate datasets do CLEAN DATA? 
-	var newObjectsArray = generateDatasets(objectsArray, columnsArray);	// return generated dataset? if async, then nest subsequent modules in generateDatasets module file
-	// convertData()	// BOOKMARK
+	var generatedDataArray = generateDatasets(objectsArray, selectedColumnsArray);	// return generated dataset? if async, then nest subsequent modules in generateDatasets module file
+	var { dataSourceRecord, tileRecord } = convertData(objectsArray, generatedDataArray, selectedTileType, {dataID, dataName, dataDescription, dataPath})	// BOOKMARK
 	// storeData()
 
-	console.log("processData module newObjectsArray:", newObjectsArray);
-
+	console.log("objectsArray of original dataset:", objectsArray);
+	console.log("processData module generatedDataArray:", generatedDataArray);
+	console.log("processData dataSourceRecord:", dataSourceRecord);
+	console.log("processData tileRecord:", tileRecord);
 };
 
 module.exports = processData;

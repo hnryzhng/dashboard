@@ -5,7 +5,7 @@ var generateDatasets = function(objectsArray, columnsArray) {
 
 	// create new dataset from objectsArray with only selected columns from columnsArray
 	
-	var newObjectsArray = [];
+	var generatedDataArray = [];
 
 	for (var i=0; i<objectsArray.length; i++) {
 		var object = objectsArray[i];
@@ -36,14 +36,16 @@ var generateDatasets = function(objectsArray, columnsArray) {
 			
 		}
 		
-		newObjectsArray.push(newObject);	// add new object with user selected columns (keys) to new objects array
+		generatedDataArray.push(newObject);	// add new object with user selected columns (keys) to new objects array
 
 
 	}
 
-	console.log("newObjectsArray:", newObjectsArray);
+	console.log("generatedDataArray:", generatedDataArray);
 
-	return newObjectsArray;
+	var generatedDataArray = generatedDataArray;
+
+	return generatedDataArray;
 }
 
 

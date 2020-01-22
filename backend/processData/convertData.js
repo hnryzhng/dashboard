@@ -1,6 +1,6 @@
 // convertData.js
 
-// convert JSON into data format for db storage in dataSource collection given path and data type
+// convert data into JSON objects for storage in tile and dataSource collections
 
 const path = require('path');
 
@@ -21,22 +21,36 @@ function checkTileTypes() {
 }
 
 
-var convertData = function(objectsArray) {
+var convertData = function(objectsArray, generatedDataArray, selectedTileType, metadataRecord) {
 	// TASK: limit number of datasets depending on user permissions
 
 	// TASK BOOKMARK
 	// generate datasets based on user selection of tile type and its columns or other features
 	// generateDatasets module?
 
-	const record = {
-		dataSource_id: "",	// TASK: UUID or content hash?
-		name: "",
-		description: "",	// twitter, table, etc.
+	var { dataID, dataName, dataDescription, dataPath } = metadataRecord;
+	console.log("convertData metadataRecord:", metadataRecord);
+
+	// TASK: see if record already exists; if it does, then 
+
+	const dataSourceRecord = {
+		dataSource_id: dataID,	// TASK: UUID or content hash?
+		name: dataName,
+		description: dataDescription,	// twitter, table, etc.
+		path: dataPath,
 		data: objectsArray
-		// generated_datasets: []	// should be reserved for processing tile data: [{ tile_type STR, dataset ARRAY of objects }, ...]	
+	}
+
+	const tileRecord = {
+		tile_id: "",
+		tile_index: "",
+		tile_type: selectedTileType,
+		dataSource_id: dataID,
+		generated_dataset: generatedDataArray
 	}
 
 	// storeData(record);
+	return { dataSourceRecord, tileRecord };
 
 };
 
