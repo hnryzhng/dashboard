@@ -11,6 +11,7 @@ import '../styles.css'
 import Tile from './Tile.js';
 import LineChartContainer from './LineChartContainer.js';
 import { linedata, bardata } from "./mockdata.js";
+import Select from 'react-select';
 
 class App extends Component {
 
@@ -116,19 +117,20 @@ class App extends Component {
 
   }
 
-  sendData = () => {
-  	console.log('send data');
+  sendData = (event) => {
+
+  	event.preventDefault();
 
   	// TASK BOOKMARK: 
   	// if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
 	
-
+  	console.log('send data');
 
   	// sends currentDataSource and user selected col headings to create tile dataset from
 
 	const baseUrl = 'http://localhost:3001';
 	const dPath = this.state.selectedFile.name;
-	const currentColumns = ['linex', 'liney']	//TASK: this.state.selectedColumnsArray after user selects
+	const currentColumns = this.state.selectedColumnsArray;
 
 	console.log('dPath:', dPath);	// example: testdata.csv
 	console.log('selected file:', this.state.selectedFile);
@@ -160,9 +162,9 @@ class App extends Component {
     // set state for selected column headings of current data source upon user selection
 	console.log('render data display');
 	// have App render from this.state.currentDataSourceHeadings
+	
 
-  	// this.setState({ selectedColumnsArray: []}, () => { this.sendData() } );	
-	this.sendData();
+	// OUTPUT: should update states of selected columns (columnOne, columnTwo) based on user selection from visual
 
   }
 
@@ -176,10 +178,18 @@ class App extends Component {
 
 			console.log('state currentDataSource:', this.state.currentDataSource);
 
-			this.renderDataDisplay();	// create HTML display of data so user can pick which column headings to create dataset from 
+			// TASK: create HTML display of data so user can pick which column headings to create dataset from 
+			// this.renderDataDisplay();	
 
 		});
-		this.setState({ currentDataSourceHeadings: Object.keys(this.state.currentDataSource[0]) }, () => { console.log('state currentDataSourceHeadings:', this.state.currentDataSourceHeadings) });
+		this.setState({ currentDataSourceHeadings: Object.keys(this.state.currentDataSource[0]) }, 
+			() => { 
+				console.log('state currentDataSourceHeadings:', this.state.currentDataSourceHeadings);
+
+				// set default selected columns to be rendered in dropdowns 
+				this.setState({ columnOne: this.state.currentDataSourceHeadings[0] });
+				this.setState({ columnTwo: this.state.currentDataSourceHeadings[1] });
+			});
 		this.setState({ currentDataSourceName: this.state.selectedFile.name});
 		
 		// TASK BOOKMARK: use content hash to create data source id
@@ -190,10 +200,11 @@ class App extends Component {
 
   }
 
-  addDataSource = (event) => {
+  addDataSource = () => {
     // add data source object upon user select
 
-    event.preventDefault();
+    // TASK: check if data source name for particular user already exists
+    // TASK: limits per user?
 
     // parse selected csv file
 
@@ -204,38 +215,39 @@ class App extends Component {
 		complete: this.updateDataStates
 	});
 
-    // TASK: check if data source name for particular user already exists
-    // TASK: limits per user?
-
   };
 
   updateColumnsArray = () => {
 
-  	// if column name already exists in array, then send error/alert
 
   	var columnsArray = this.state.selectedColumnsArray; 
 
-  	columnsArray.push(this.state.columnOne);
-  	columnsArray.push(this.state.columnTwo);
+  	const columnOne = this.state.columnOne;
+  	const columnTwo = this.state.columnTwo;
+
+  	// validate: check if column name already exists in array
+  	if (columnOne === columnTwo) {
+  		alert("please choose a different column");
+  		return
+  	};
+
+  	// validate: check if array has existing members
+  	if (columnsArray.length > 0) {
+  		// clear array
+  		columnsArray = [];
+  	};
+  	
+	columnsArray.push(this.state.columnOne);
+	columnsArray.push(this.state.columnTwo);
+
 
   	// TASK BOOKMARK: validate array length limit, if column already exists
 
   	this.setState({ selectedColumnsArray: columnsArray }, () => {
   		console.log('selectedColumnsArray:', this.state.selectedColumnsArray);
   	});
-
-
-  	// if (columnsArray.indexOf(selectedColumn) !== -1) {
-  		// if column is not already in array
-  		// alert("You've already selected this column");
-  	// } else {
-  		// columnsArray.push(selectedColumn);
-  		// this.setState({ selectedColumnsArray: columnsArray});
-  	// }
-
-
-
   }
+
 
   render() {
 
@@ -270,18 +282,18 @@ class App extends Component {
       
 
         <div id="userControl">
-          
+
           <select id="tile-type" value={ this.state.selectedTileType } onChange={ (event)=>{ this.setState({ selectedTileType: event.target.value }) } }>
-            <option defaultValue="choose tile type">Choose Tile Type</option>
+            <option>Choose Tile Type</option>
             <option value="bar">Bar Chart</option>
             <option value="line">Line Chart</option>
           </select>
 
           <select id="data-source" value={ this.state.currentDataSourceID } onChange={ (event)=>{ this.setState({ currentDataSourceID: event.target.value }) } }>
             <option defaultValue="choose data source">generate list of dropdown based on tile type?</option>            
+            <option disabled> "dataSource title" </option>
             <option value="mock-bar-data">Bar data</option>
             <option value="mock-line-data">Line data</option>
-            <option value="dataSource.id" disabled> "dataSource.title" </option>
           </select>
 
           <button type="button" onClick={ () => { this.addTile() } }>Add Tile</button>
@@ -290,9 +302,9 @@ class App extends Component {
 
         </div>
 
-        <form className="form-inline" onSubmit={ this.addDataSource }>
+        <form className="form-inline" onSubmit={ this.sendData }>
         	<div className="form-group">
-        		<input type="file" id="uploadedFile" className="form-control" placeholder="upload your data source" onChange={ event => this.setState({ selectedFile: event.target.files[0] }) } />
+        		<input type="file" id="uploadedFile" className="form-control" placeholder="upload your data source" onChange={ (event) => this.setState({ selectedFile: event.target.files[0] }, ()=>{ this.addDataSource() }) } />
         		<button type="submit" id="fileUploadSubmit" className="btn btn-primary">submit file</button>
         	</div>
         </form>
@@ -303,19 +315,24 @@ class App extends Component {
 					this.setState({ columnOne: event.target.value }, () => { this.updateColumnsArray() });
 	        	}}>
 
-	        	{ this.state.currentDataSourceHeadings.map((heading, index) => {
-	        		return <option key={ index }> { heading } </option>;
-	        	}) }
+	        	{ 
+					this.state.currentDataSourceHeadings.map((heading, index) => {
+	        			return <option key={ index } value={ heading }> { heading } </option>;
+	        		}) 
+	        	}
 
 	        </select>
+
 
 	        <select id="column-two" value={ this.state.columnTwo } onChange={ (event) => { 
 					this.setState({ columnTwo: event.target.value }, () => { this.updateColumnsArray() });
 	        	}}>
 
-	        	{ this.state.currentDataSourceHeadings.map((heading, index) => {
-	        		return <option key={ index }> { heading } </option>;
-	        	}) }
+	        	{ 
+	        		this.state.currentDataSourceHeadings.map((heading, index) => {
+	        			return <option key={ index }> { heading } </option>;
+	        		}) 
+	        	}
 
 	        </select>
 	    </div>
