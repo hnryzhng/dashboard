@@ -28,7 +28,9 @@ class App extends Component {
     currentDataSourceID: "",
     currentDataSourceName: "",
     currentDataSourceDescription: "",
-    selectedColumnsArray: []
+    selectedColumnsArray: [],
+    columnOne: null,
+    columnTwo: null
   }
 
   componentDidMount() {
@@ -207,6 +209,34 @@ class App extends Component {
 
   };
 
+  updateColumnsArray = () => {
+
+  	// if column name already exists in array, then send error/alert
+
+  	var columnsArray = this.state.selectedColumnsArray; 
+
+  	columnsArray.push(this.state.columnOne);
+  	columnsArray.push(this.state.columnTwo);
+
+  	// TASK BOOKMARK: validate array length limit, if column already exists
+
+  	this.setState({ selectedColumnsArray: columnsArray }, () => {
+  		console.log('selectedColumnsArray:', this.state.selectedColumnsArray);
+  	});
+
+
+  	// if (columnsArray.indexOf(selectedColumn) !== -1) {
+  		// if column is not already in array
+  		// alert("You've already selected this column");
+  	// } else {
+  		// columnsArray.push(selectedColumn);
+  		// this.setState({ selectedColumnsArray: columnsArray});
+  	// }
+
+
+
+  }
+
   render() {
 
     // console.log("selected tile type:", this.state.selectedTileType);
@@ -267,6 +297,28 @@ class App extends Component {
         	</div>
         </form>
 
+
+        <div id="select-column-dropdown">
+	        <select id="column-one" value={ this.state.columnOne } onChange={ (event) => { 
+					this.setState({ columnOne: event.target.value }, () => { this.updateColumnsArray() });
+	        	}}>
+
+	        	{ this.state.currentDataSourceHeadings.map((heading, index) => {
+	        		return <option key={ index }> { heading } </option>;
+	        	}) }
+
+	        </select>
+
+	        <select id="column-two" value={ this.state.columnTwo } onChange={ (event) => { 
+					this.setState({ columnTwo: event.target.value }, () => { this.updateColumnsArray() });
+	        	}}>
+
+	        	{ this.state.currentDataSourceHeadings.map((heading, index) => {
+	        		return <option key={ index }> { heading } </option>;
+	        	}) }
+
+	        </select>
+	    </div>
 
       </div>
 
