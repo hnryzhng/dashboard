@@ -358,12 +358,57 @@ class TileControl extends Component {
 
 				<DataSourceField />
 
+				<ColumnsDropdown />
+
 				<Submit />
 
 			</div>
 		)
 	}
 
+}
+
+class TileField extends Component {
+	render() {
+		return(
+			<div>
+
+			</div>
+
+		)
+	}
+}
+
+class DataSourceField extends Component {
+	render() {
+		return(
+			<div>
+
+			</div>
+		);
+	}
+}
+
+class ColumnsDropdown extends Component {
+	render() {
+		return(
+			<div>
+
+			</div>
+		)
+	}
+}
+
+class Submit extends Component {
+	render() {
+		return(
+
+			<button>
+
+			</button>
+
+		)
+	}
 }
 
 export default App;
