@@ -30,7 +30,7 @@ class App extends Component {
     currentDataSourceHeadings: [],
     currentDataSourceID: "",
     currentDataSourceName: "",
-    currentDataSourceDescription: "",
+    currentDataSourceDescription: "description",
     selectedColumnsArray: [],
     columnOne: null,
     columnTwo: null
@@ -84,6 +84,9 @@ class App extends Component {
       }
 
       console.log("tile object:", tileObject);
+
+
+
 
       // generate dataset in backend for particular tile based on user selection of columns or other feature 
       // addTile -> addDataSource -> addTile: send data path with user selected columns (e.g., selected headings from csv array)

@@ -2,7 +2,7 @@
 
 // convert data into JSON objects for storage in tile and dataSource collections
 
-const path = require('path');
+var path = require('path');
 
 var storeData = path.join(__dirname, 'storeData.js');
 
@@ -42,8 +42,8 @@ var convertData = function(objectsArray, generatedDataArray, selectedTileType, m
 	}
 
 	const tileRecord = {
-		tile_id: "",
-		tile_index: "",
+		tile_id: "randonum",
+		tile_index: -1,
 		tile_type: selectedTileType,
 		dataSource_id: dataID,
 		generated_dataset: generatedDataArray
@@ -54,7 +54,5 @@ var convertData = function(objectsArray, generatedDataArray, selectedTileType, m
 
 };
 
-convertData.lineChart = (jsonObj) => {
-}
 
 module.exports = convertData;

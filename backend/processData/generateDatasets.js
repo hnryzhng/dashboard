@@ -1,9 +1,9 @@
 
 // TASK BOOKMARK: have generate datasets do CLEAN DATA?
 
-var generateDatasets = function(objectsArray, columnsArray) {
+var generateDatasets = function(objectsArray, selectedColumnsArray) {
 
-	// create new dataset from objectsArray with only selected columns from columnsArray
+	// create new dataset from objectsArray with only selected columns from selectedColumnsArray
 	
 	var generatedDataArray = [];
 
@@ -15,17 +15,17 @@ var generateDatasets = function(objectsArray, columnsArray) {
 		// console.log("objects array i:", i);
 		// console.log("object:", object);
 		// console.log("object keys:", objectKeys);
-		// console.log("columnsArray:", columnsArray);
+		// console.log("selectedColumnsArray:", selectedColumnsArray);
 
 		
-		// for each key in object, if key is also in columnsArray, then grab key-value pair
+		// for each key in object, if key is also in selectedColumnsArray, then grab key-value pair
 		for (var j=0; j< objectKeys.length; j++) {
 			var key = objectKeys[j];
 
 			// console.log("object keys j:", j)
 			// console.log("object key:", key);
 
-			if (columnsArray.indexOf(key) !== -1) {
+			if (selectedColumnsArray.indexOf(key) !== -1) {
 				// if key is present in columns array
 				console.log("true");
 				newObject[key] = object[key];	// put object's key-value pair in new object

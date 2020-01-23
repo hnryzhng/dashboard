@@ -16,31 +16,24 @@ require('dotenv').config()	// load env vars
 const app = express();
 const api_port = process.env.PORT || 3001;
 
-
-
-/**
 // LOAD MIDDLEWARE
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended:true }));
 app.use(bodyParser.json());
 app.use(cors());
 
 // DATABASE
-const dbRoute = process.env.MONGOLAB_URI;	// use env var to hide db key for production build deployment to Heroku
-const dbRoute = require("./config/keys.js").mongoURI;	// cloud db url stored in config file
+const dbRoute = process.env.MONGOLAB_URI;	
 
 mongoose
 	.connect(
 		dbRoute,
-		{useNewUrlParser: true}
+		{ 
+			useUnifiedTopology: true,
+			useNewUrlParser: true 
+		}
 	)
 	.then(() => console.log("connected to MongoDB database"))
 	.catch((err) => console.log("error connecting to MongoDB:", err));
-**/
-
-// LOAD MIDDLEWARE
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
-app.use(cors());
 
 
 // SERVE REACT SCRIPTS
