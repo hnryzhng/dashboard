@@ -22,7 +22,9 @@ class App extends Component {
   	loggedIn: null,
     tilesList: [],  // [{ str tile_id, num tile_index, str tile_type, str dataSource_id, array generated_dataset, (obj tileElement) }]
     dataSourcesList: [], // [{ str dataSource_id, str name }]
+    
     selectedTileType: "",
+
     selectedFile: null,
     currentDataSource: null,
     currentDataSourceHeadings: [],
@@ -54,7 +56,7 @@ class App extends Component {
 
     // TASK: limits per user?
 
-    // check to see if tile with same type and data source already exists
+    // validation: check to see if tile with same type and data source already exists
     for (var i=0; i<tilesList.length; i++) {
       if (tType === tilesList[i].tileType && dID === tilesList[i].dataSourceID) {
         console.log("Tile of same type and data source already exists");
@@ -62,7 +64,7 @@ class App extends Component {
       }
     }
 
-    // if both selected tile type and data source id are not empty strings
+    // validation: if both selected tile type and data source id are not empty strings
     if (tType.length > 0 && dID.length > 0) {
 
       let tID;
@@ -83,13 +85,12 @@ class App extends Component {
 
       console.log("tile object:", tileObject);
 
-      // TASK BOOKMARK
-      // send POST request to appropriate route
       // generate dataset in backend for particular tile based on user selection of columns or other feature 
-      // create processTileData folder?
-
       // addTile -> addDataSource -> addTile: send data path with user selected columns (e.g., selected headings from csv array)
+      
+      // TASK: display addDataSource fields only after selecting tile type
 
+      // <TileControl> => <TileField /> => <DataSourceField /> => <Submit onClick={ this.sendData() } />
 
       // if successfully stored in db, then... 
       // add tile object to list
@@ -121,10 +122,12 @@ class App extends Component {
 
   	event.preventDefault();
 
-  	// TASK BOOKMARK: 
-  	// if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
+  	// TASK: if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
+  	// TASK: user can select from existing data source that will be fetched upon component mount
 	
   	console.log('send data');
+
+  	// TASK BOOKMARK: validate all fields to make sure can send
 
   	// sends currentDataSource and user selected col headings to create tile dataset from
 
@@ -138,13 +141,12 @@ class App extends Component {
 
 	const record = {
 		selectedTileType: this.state.selectedTileType,
-
 		objectsArray: this.state.currentDataSource,
 		selectedColumnsArray: currentColumns,
 		dataPath: dPath,
 		dataID: 'testdataID',	//this.state.currentDataSourceID;
-		dataName: "test data name",	//this.state.currentDataSourceName
-		dataDescription: "test data description"	//this.state.currentDataSourceDescription defined by user
+		dataName: this.state.currentDataSourceName,
+		dataDescription: this.state.currentDataSourceDescription
 	}
 
 	// send POST request
@@ -189,6 +191,7 @@ class App extends Component {
 				// set default selected columns to be rendered in dropdowns 
 				this.setState({ columnOne: this.state.currentDataSourceHeadings[0] });
 				this.setState({ columnTwo: this.state.currentDataSourceHeadings[1] });
+				this.setState({ selectedColumnsArray: [this.state.currentDataSourceHeadings[0], this.state.currentDataSourceHeadings[1]] });
 			});
 		this.setState({ currentDataSourceName: this.state.selectedFile.name});
 		
@@ -298,7 +301,7 @@ class App extends Component {
 
           <button type="button" onClick={ () => { this.addTile() } }>Add Tile</button>
 
-          <button type="button" onClick={ () => { this.addDataSource() } }>ADD DATA</button>
+          <button type="button" onClick={ () => {  } }>MAGIC BUTTON</button>
 
         </div>
 
@@ -341,6 +344,25 @@ class App extends Component {
 
     );
   }
+
+}
+
+class TileControl extends Component {
+
+
+	render() {
+		return(
+			<div>
+
+				<TileField />
+
+				<DataSourceField />
+
+				<Submit />
+
+			</div>
+		)
+	}
 
 }
 
