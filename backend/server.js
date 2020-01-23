@@ -17,8 +17,7 @@ const app = express();
 const api_port = process.env.PORT || 3001;
 
 // DATABASE
-const dbRoute = process.env.MONGOLAB_URI;	
-console.log('server.js dbRoute:', dbRoute);
+const dbRoute = process.env.MONGOLAB_URI;
 
 mongoose
 	.connect(
