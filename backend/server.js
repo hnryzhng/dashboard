@@ -16,25 +16,26 @@ require('dotenv').config()	// load env vars
 const app = express();
 const api_port = process.env.PORT || 3001;
 
-// LOAD MIDDLEWARE
-app.use(bodyParser.urlencoded({ extended:true }));
-app.use(bodyParser.json());
-app.use(cors());
-
 // DATABASE
 const dbRoute = process.env.MONGOLAB_URI;	
+console.log('server.js dbRoute:', dbRoute);
 
 mongoose
 	.connect(
 		dbRoute,
 		{ 
-			useUnifiedTopology: true,
-			useNewUrlParser: true 
+			useNewUrlParser: true,
+			useUnifiedTopology: true
 		}
 	)
 	.then(() => console.log("connected to MongoDB database"))
 	.catch((err) => console.log("error connecting to MongoDB:", err));
 
+
+// LOAD MIDDLEWARE
+app.use(bodyParser.urlencoded({ extended:true }));
+app.use(bodyParser.json());
+app.use(cors());
 
 // SERVE REACT SCRIPTS
 

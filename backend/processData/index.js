@@ -31,13 +31,17 @@ var processData = function(requestBody) {
 	// console.log('objectsArray:', objectsArray);
 
 	var generatedDataArray = generateDatasets(objectsArray, selectedColumnsArray);	// return generated dataset? if async, then nest subsequent modules in generateDatasets module file
-	var { dataSourceRecord, tileRecord } = convertData(objectsArray, generatedDataArray, selectedTileType, {dataID, dataName, dataDescription, dataPath})	// BOOKMARK
+	var { dataSourceRecord, tileRecord } = convertData(objectsArray, generatedDataArray, selectedTileType, {dataID, dataName, dataDescription, dataPath});
+
+	console.log("objectsArray of original dataset:", objectsArray);
+	console.log("processData module generatedDataArray:", generatedDataArray);
+	console.log("processData dataSourceRecord:", dataSourceRecord);
+	console.log("processData tileRecord:", tileRecord);
+	
+
 	storeData(dataSourceRecord, tileRecord);
 
-	// console.log("objectsArray of original dataset:", objectsArray);
-	// console.log("processData module generatedDataArray:", generatedDataArray);
-	// console.log("processData dataSourceRecord:", dataSourceRecord);
-	// console.log("processData tileRecord:", tileRecord);
+	
 };
 
 module.exports = processData;

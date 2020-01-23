@@ -24,13 +24,6 @@ var storeData = function(dataSourceRecord, tileRecord) {
 			.catch(err=> console.log("error saving dataSource doc to db:", err));
 
 
-
-
-
-
-
-
-
 };
 
 module.exports = storeData;
