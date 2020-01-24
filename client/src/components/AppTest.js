@@ -14,7 +14,6 @@ import '../styles.css'
 import Tile from './Tile.js';
 import LineChartContainer from './LineChartContainer.js';
 import { linedata, bardata } from "./mockdata.js";
-import Select from 'react-select';
 
 class App extends Component {
 
@@ -34,7 +33,44 @@ class App extends Component {
 
   }
 
-  handleTilesList = () => {
+  handleListsUpdates = (tType, dataSourceObj) => {
+
+  	// update tiles and dataSources lists
+    
+    // TASK: limits per user?
+
+  	const dID = dataSourceObj.id;
+
+    // validation: check to see if tile with same type and data source already exists
+    for (var i=0; i<tilesList.length; i++) {
+      if (tType === tilesList[i].tileType && dID === tilesList[i].dataSourceID) {
+        console.log("Tile of same type and data source already exists");
+        return
+      }
+    }
+
+	// create current tile index based on previous tile index in list
+	let tIndex;
+	if (tilesList.length > 0) {
+		tIndex = tilesList[tilesList.length-1].tileIndex;  // last tile ID in list
+	} else {
+		tIndex = 0;
+	}
+
+  	// add tile to tilesList
+  	const tileObj = {
+  		tileID: "random_tile_id",	// TASK: use UUID? or just let id be generated upon save to db?
+  		tileIndex: tIndex,
+  		tileType: tType,
+  		dataSourceID: dataSourceObj.id
+  	}
+
+  	// add records to respective lists 
+  	const newTilesList = this.state.tilesList.push(tileObj);
+  	this.setState({ tilesList: newTilesList}, console.log("new tiles list:", this.state.tilesList));
+
+  	const newDataSourcesList = this.state.dataSourcesList.push(dataSourceObj);
+  	this.setState({ dataSourcesList: newDataSourcesList }, console.log("new data sources list:", this.state.dataSourcesList));
 
   }
 
@@ -70,7 +106,7 @@ class App extends Component {
     return (
       <div>
 
-      	<TileControl { ...this.state } handleTilesList={ this.handleTilesList }/>
+      	<TileControl { ...this.state } handleListsUpdates={ this.handleListsUpdates }/>
 
 
         <div id="tiles-container">
@@ -102,6 +138,8 @@ class TileControl extends Component {
 	handleTileField = (tileType) => {
 		this.setState({ selectedTileType: tileType })
 		console.log("TileControl selectedTileType:", tileType);
+
+
 	}
 
 	handleDataSourceField = (object) => {
@@ -110,18 +148,53 @@ class TileControl extends Component {
 
 	}
 
+
+	sendData = () => {
+	  	// sends currentDataSource and user selected tile type & col headings to create tile dataset from
+
+	  	// TASK: if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
+	  	// TASK: user can select from existing data source that will be fetched upon component mount
+		
+
+	  	// TASK BOOKMARK: validate all fields to make sure can send
+
+		const baseUrl = 'http://localhost:3001';
+	  	console.log('send data');
+
+		const record = {
+			selectedTileType: this.state.selectedTileType,
+			objectsArray: this.state.dataSourceObj.data,
+			selectedColumnsArray: this.state.dataSourceObj.selectedColumnsArray,
+			dataPath: this.state.dataSourceObj.name,	// TASK: should change 
+			dataID: this.state.dataSourceObj.ID,	//this.state.currentDataSourceID;
+			dataName: this.state.dataSourceObj.name,
+			dataDescription: this.state.dataSource.description
+		}
+
+		// send POST request
+		axios.post(`${baseUrl}/api/processData`, record)
+			.then(response => response.data)
+			.then(data => data)
+			.catch( err => console.log('error:', err));
+	}
+
 	handleSubmit = () => {
 		// onClick of Submit button, sends data to backend if all fields pass validation
 
-		// TASK: this.props.handleTilesList(tileObject)	// send back to App to update its tilesList state
-		// refer to TileField component's addTile method
-		// this.setState({ dataSourcesList: { ...this.state.dataSourcesList, hashedID } })
-	}
+		// refer to TileField component's handleListsUpdates method
 
+		// BOOKMARK
+		this.sendData();
+
+		// pass data to App component's handleListsUpdates method
+		this.props.handleListsUpdates(this.state.tileType, dataSourceObj)
+
+	}
 
 	render() {
 
 		let dataSourceField;
+		let submitButton; 
 		if (this.state.selectedTileType.length > 0) {
 			dataSourceField = <DataSourceField { ...this.state } handleDataSourceField={ this.handleDataSourceField }/>;
 		}
@@ -133,7 +206,10 @@ class TileControl extends Component {
 
 				{ dataSourceField }
 
-				<Submit { ...this.state } />
+				<button className="btn btn-primary" onClick={ this.handleSubmit }>
+					SUBMIT OR ADD TILE
+				</button>
+
 
 			</div>
 		)
@@ -153,7 +229,7 @@ class TileField extends Component {
 		this.handleTileField(tType);	
 	}
 
-	addTile = () => {
+	addTileOld = () => {
 		// add tile to tilesList
 
 		var tType = this.state.selectedTileType;
@@ -200,7 +276,7 @@ class TileField extends Component {
 
 
 		  // generate dataset in backend for particular tile based on user selection of columns or other feature 
-		  // addTile -> addDataSource -> addTile: send data path with user selected columns (e.g., selected headings from csv array)
+		  // addTile -> addDataSource -> handleListsUpdates: send data path with user selected columns (e.g., selected headings from csv array)
 		  
 		  // TASK: display addDataSource fields only after selecting tile type
 
@@ -213,6 +289,8 @@ class TileField extends Component {
 		  console.log("tiles list:", tilesList);
 
 		  // TASK: send tiles list back up to parent
+		  this.props.handleTileField(tileObject);
+
 
 		}
 
@@ -295,7 +373,7 @@ class DataSourceField extends Component {
     sendToTileControl = () => {
     	var dataSourceObj = {
 	    	data: currentDataSource,
-	    	id: "test_id", this.state.currentDataSourceID
+	    	id: "test_id",	//this.state.currentDataSourceID
 	    	name: selectedFile.name,
 	    	description: "test_description",
 	    	headings: this.state.currentDataSourceHeadings,
@@ -335,8 +413,10 @@ class ColumnsDropdown extends Component {
 
 	componentDidMount() {
 		// set default column values from DataSource headings
-		this.setState({ columnOne: this.props.headings[0] });
-		this.setState({ columnTwo: this.props.headings[1] });
+		const colOne = this.props.headings[0];
+		const colTwo = this.props.headings[1];
+		this.setState({ columnOne: colOne});
+		this.setState({ columnTwo: colTwo });
 	}
 
 	sendToParent = () => {
@@ -353,7 +433,7 @@ class ColumnsDropdown extends Component {
 
 					{
 						this.props.headings.map((heading, index) => {
-							return <option key={ index } value={ heading }> { heading } </option>;
+							return <option key={ index } value={ heading }> { heading } </option>
 						});
 					}
 
