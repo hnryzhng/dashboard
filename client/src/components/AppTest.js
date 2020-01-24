@@ -40,6 +40,7 @@ class App extends Component {
     // TASK: limits per user?
 
   	const dID = dataSourceObj.id;
+  	const tilesList = this.state.tilesList;
 
     // validation: check to see if tile with same type and data source already exists
     for (var i=0; i<tilesList.length; i++) {
@@ -111,13 +112,7 @@ class App extends Component {
 
         <div id="tiles-container">
 
-          { 
-
-            tilesList.map((tile, index) => {
-                  return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
-            })
-
-          }
+          { tilesDisplay }
 
         </div>
 
@@ -154,8 +149,6 @@ class TileControl extends Component {
 	  	// TASK: if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
 	  	// TASK: user can select from existing data source that will be fetched upon component mount
 		
-
-
 		const baseUrl = 'http://localhost:3001';
 	  	console.log('send data');
 
@@ -172,7 +165,7 @@ class TileControl extends Component {
 			dataPath: this.state.dataSourceObj.name,	// TASK: should change 
 			dataID: this.state.dataSourceObj.id,	//this.state.currentDataSourceID;
 			dataName: this.state.dataSourceObj.name,
-			dataDescription: this.state.dataSource.description
+			dataDescription: this.state.dataSourceObj.description
 		}
 
 		// send POST request
@@ -182,16 +175,18 @@ class TileControl extends Component {
 			.catch( err => console.log('error:', err));
 	}
 
-	handleSubmit = () => {
+	handleSubmit = (event) => {
 		// onClick of Submit button, sends data to backend if all fields pass validation
 
 		// refer to TileField component's handleListsUpdates method
+
+		event.preventDefault();
 
 		// BOOKMARK
 		this.sendData();
 
 		// pass data to App component's handleListsUpdates method
-		this.props.handleListsUpdates(this.state.tileType, dataSourceObj)
+		this.props.handleListsUpdates(this.state.tileType, this.state.dataSourceObj)
 
 	}
 
@@ -328,7 +323,7 @@ class DataSourceField extends Component {
 
 		let columnsDropdown;
 		if (this.state.currentDataSourceHeadings.length > 0) {
-			columnsDropdown = <ColumnsDropdown headings={ this.state.currentDataSourceHeadings } />
+			columnsDropdown = <ColumnsDropdown headings={ this.state.currentDataSourceHeadings } handleSelectedColumns={ this.handleSelectedColumns }/>
 
 		}
 
@@ -366,31 +361,35 @@ class ColumnsDropdown extends Component {
 	}
 
 	sendToParent = () => {
-		if (this.state.columnOne.length > 0 && this.state.columnTwo.length > 0) {
+		var { columnOne, columnTwo } = this.state;
+		if (columnOne.length > 0 && columnTwo.length > 0) {
 			this.props.handleSelectedColumns(columnOne, columnTwo);	
 		}
 	}
 
 
 	render() {
+
+		// console.log("columns dropdown this.props.headings:", this.props.headings);
+
 		return(
 			<div id="select-column-dropdown">
-				<select id="column-one" value={ this.state.columnOne } onChange={ (event) => { this.setState({ columnOne: event.target.value }, () => { this.sendToParent }) } }>
+				<select id="column-one" value={ this.state.columnOne } onChange={ (event) => { this.setState({ columnOne: event.target.value }, () => { this.sendToParent() }) } }>
 
 					{
 						this.props.headings.map((heading, index) => {
-							return <option key={ index } value={ heading }> { heading } </option>
-						});
+							return(<option key={ index } value={ heading }> { heading } </option>)
+						})
 					}
 
 				</select>
 
-				<select id="column-two" value={ this.state.columnTwo } onChange={ (event) => { this.setState({ columnTwo: event.target.value }, () => { this.sendToParent }) } } >
+				<select id="column-two" value={ this.state.columnTwo } onChange={ (event) => { this.setState({ columnTwo: event.target.value }, () => { this.sendToParent() }) } } >
 
 					{
 						this.props.headings.map((heading, index) => {
-							return <option key={ index } value={ heading }> { heading } </option>;
-						});
+							return(<option key={ index } value={ heading }> { heading } </option>)
+						})
 					}
 
 				</select>
