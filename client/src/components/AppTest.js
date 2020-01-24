@@ -62,12 +62,12 @@ class App extends Component {
   		tileID: "random_tile_id",	// TASK: use UUID? or just let id be generated upon save to db?
   		tileIndex: tIndex,
   		tileType: tType,
-  		dataSourceID: dataSourceObj.id
+  		dataSourceID: dID
   	}
 
   	// add records to respective lists 
   	const newTilesList = this.state.tilesList.push(tileObj);
-  	this.setState({ tilesList: newTilesList}, console.log("new tiles list:", this.state.tilesList));
+  	this.setState({ tilesList: newTilesList }, console.log("new tiles list:", this.state.tilesList));
 
   	const newDataSourcesList = this.state.dataSourcesList.push(dataSourceObj);
   	this.setState({ dataSourcesList: newDataSourcesList }, console.log("new data sources list:", this.state.dataSourcesList));
@@ -139,7 +139,6 @@ class TileControl extends Component {
 		this.setState({ selectedTileType: tileType })
 		console.log("TileControl selectedTileType:", tileType);
 
-
 	}
 
 	handleDataSourceField = (object) => {
@@ -156,17 +155,22 @@ class TileControl extends Component {
 	  	// TASK: user can select from existing data source that will be fetched upon component mount
 		
 
-	  	// TASK BOOKMARK: validate all fields to make sure can send
 
 		const baseUrl = 'http://localhost:3001';
 	  	console.log('send data');
+
+	  	// TASK BOOKMARK: validate all fields to make sure can send, maybe in separate method
+	  	if (this.state.selectedTileType.length === 0 && this.state.dataSourceObj === null) {
+	  		console.log("error: can't send data");
+	  		return
+	  	}
 
 		const record = {
 			selectedTileType: this.state.selectedTileType,
 			objectsArray: this.state.dataSourceObj.data,
 			selectedColumnsArray: this.state.dataSourceObj.selectedColumnsArray,
 			dataPath: this.state.dataSourceObj.name,	// TASK: should change 
-			dataID: this.state.dataSourceObj.ID,	//this.state.currentDataSourceID;
+			dataID: this.state.dataSourceObj.id,	//this.state.currentDataSourceID;
 			dataName: this.state.dataSourceObj.name,
 			dataDescription: this.state.dataSource.description
 		}
@@ -199,6 +203,11 @@ class TileControl extends Component {
 			dataSourceField = <DataSourceField { ...this.state } handleDataSourceField={ this.handleDataSourceField }/>;
 		}
 
+		if (this.state.selectedTileType.length > 0 && this.state.dataSourceObj !== null) {
+			submitButton = 	<button className="btn btn-primary" onClick={ this.handleSubmit }> SUBMIT OR ADD TILE </button>
+
+		}
+
 		return(
 			<div>
 
@@ -206,10 +215,7 @@ class TileControl extends Component {
 
 				{ dataSourceField }
 
-				<button className="btn btn-primary" onClick={ this.handleSubmit }>
-					SUBMIT OR ADD TILE
-				</button>
-
+				{ submitButton }
 
 			</div>
 		)
@@ -226,74 +232,7 @@ class TileField extends Component {
 		// console.log("tile field selected type:", tType);
 
 		// send to TileControl parent component 
-		this.handleTileField(tType);	
-	}
-
-	addTileOld = () => {
-		// add tile to tilesList
-
-		var tType = this.state.selectedTileType;
-		var tilesList = this.props.tilesList;
-		var dID = this.props.currentDataSourceID;
-
-		// TASK: BOOKMARK
-		// check to see if selected tile type can be paired with selected data source
-		// if tile type in dataSource db record object's forTileTypes array
-
-		// TASK: limits per user?
-
-		// validation: check to see if tile with same type and data source already exists
-		for (var i=0; i<tilesList.length; i++) {
-		  if (tType === tilesList[i].tileType && dID === tilesList[i].dataSourceID) {
-		    console.log("Tile of same type and data source already exists");
-		    return
-		  }
-		}
-
-		// validation: if both selected tile type and data source id are not empty strings
-		if (tType.length > 0 && dID.length > 0) {
-
-		  let tID;
-		  // TASK: create UUID for particular user? for now, increment based on preceding tile id in tilesList
-		  if (tilesList.length > 0) {
-		    tID = tilesList[tilesList.length-1].tileID;  // last tile ID in list
-		  } else {
-		    tID = 0;
-		  }
-
-		  
-
-		  var tileObject = {
-		    tileID: (tID+1), // TASK temporary: create UUID for particular user? for now, increment based on preceding tile id in tilesList        
-		    tileIndex: null,	// 
-		    tileType: tType,
-		    dataSourceID: dID
-		  }
-
-		  console.log("tile object:", tileObject);
-
-
-
-
-		  // generate dataset in backend for particular tile based on user selection of columns or other feature 
-		  // addTile -> addDataSource -> handleListsUpdates: send data path with user selected columns (e.g., selected headings from csv array)
-		  
-		  // TASK: display addDataSource fields only after selecting tile type
-
-		  // <TileControl> => <TileField /> => <DataSourceField /> => <Submit onClick={ this.sendData() } />
-
-		  // if successfully stored in db, then... 
-		  // add tile object to list
-		  tilesList.push(tileObject);
-		  this.setState({ tilesList: tilesList })
-		  console.log("tiles list:", tilesList);
-
-		  // TASK: send tiles list back up to parent
-		  this.props.handleTileField(tileObject);
-
-
-		}
-
+		this.props.handleTileField(tType);	
 	}
 
 	render() {
@@ -317,8 +256,6 @@ class DataSourceField extends Component {
     state = {
     	selectedFile: null,
     	currentDataSource: null,
-    	// currentDataSourceID: "",
-    	// currentDataSourceName: "",
     	currentDataSourceHeadings: [],
     	selectedColumnsArray: []
     }
@@ -332,7 +269,8 @@ class DataSourceField extends Component {
     updateDataStates = (results) => {
 
     	const parsedData = results.data;
-    	// console.log('papa parsed data source results:', results);
+    	console.log('papa parsed data source results:', results);
+    	
     	const dataSourceHeadings = Object.keys(parsedData[0]);
     	// hashedID = hashContent function;	// TASK BOOKMARK: use content hash to create data source id
     	
@@ -351,11 +289,12 @@ class DataSourceField extends Component {
     handleFileUpload = (event) => {
     	event.preventDefault();
 
-    	// addDataSource in former App component
+    	// TASK: refer to addDataSource in former App component
 
     	var file = event.target.files[0];
     	this.setState({ selectedFile: file });
 
+    	// convert csv to JSON
     	Papa.parse(file, {
     		header: true,
     		complete: this.updateDataStates
@@ -372,9 +311,9 @@ class DataSourceField extends Component {
 
     sendToTileControl = () => {
     	var dataSourceObj = {
-	    	data: currentDataSource,
+	    	data: this.state.currentDataSource,
 	    	id: "test_id",	//this.state.currentDataSourceID
-	    	name: selectedFile.name,
+	    	name: this.state.selectedFile.name,
 	    	description: "test_description",
 	    	headings: this.state.currentDataSourceHeadings,
 	    	selectedColumnsArray: this.state.selectedColumnsArray,
@@ -386,6 +325,13 @@ class DataSourceField extends Component {
     }
 
 	render() {
+
+		let columnsDropdown;
+		if (this.state.currentDataSourceHeadings.length > 0) {
+			columnsDropdown = <ColumnsDropdown headings={ this.state.currentDataSourceHeadings } />
+
+		}
+
 		return(
 			<div>
 
@@ -396,7 +342,7 @@ class DataSourceField extends Component {
 					</div>
 				</form>
 
-				<ColumnsDropdown headings={ this.state.currentDataSourceHeadings } />
+				{ columnsDropdown }
 
 			</div>
 		);
@@ -412,7 +358,7 @@ class ColumnsDropdown extends Component {
 	}
 
 	componentDidMount() {
-		// set default column values from DataSource headings
+		// set default column values from dataSource headings
 		const colOne = this.props.headings[0];
 		const colTwo = this.props.headings[1];
 		this.setState({ columnOne: colOne});
@@ -420,7 +366,7 @@ class ColumnsDropdown extends Component {
 	}
 
 	sendToParent = () => {
-		if (this.state.columnOne > 0 && this.state.columnTwo.length > 0) {
+		if (this.state.columnOne.length > 0 && this.state.columnTwo.length > 0) {
 			this.props.handleSelectedColumns(columnOne, columnTwo);	
 		}
 	}
@@ -475,15 +421,15 @@ class Submit extends Component {
 			objectsArray: this.props.dataSourceObj.data,
 			selectedColumnsArray: this.props.dataSourceObj.selectedColumnsArray,
 			dataPath: this.props.dataSourceObj.name,	// TASK: should change 
-			dataID: this.props.dataSourceObj.ID,	//this.state.currentDataSourceID;
+			dataID: this.props.dataSourceObj.id,	//this.state.currentDataSourceID;
 			dataName: this.props.dataSourceObj.name,
 			dataDescription: this.props.dataSource.description
 		}
 
 		// send POST request
 		axios.post(`${baseUrl}/api/processData`, record)
-			.then(response => response.data)
-			.then(data => data)
+			// .then(response => response.data)
+			// .then(data => console.log("data:", data))
 			.catch( err => console.log('error:', err));
 	}
 
