@@ -40,7 +40,10 @@ class App extends Component {
     // TASK: limits per user?
 
   	const dID = dataSourceObj.id;
-  	const tilesList = this.state.tilesList;
+  	var tilesList = this.state.tilesList;
+  	console.log("handleListsUpdates tilesList:", tilesList);
+  	console.log("tType:", tType);
+  	console.log("dataSourceObj:", dataSourceObj);
 
     // validation: check to see if tile with same type and data source already exists
     for (var i=0; i<tilesList.length; i++) {
@@ -67,11 +70,11 @@ class App extends Component {
   	}
 
   	// add records to respective lists 
-  	const newTilesList = this.state.tilesList.push(tileObj);
-  	this.setState({ tilesList: newTilesList }, console.log("new tiles list:", this.state.tilesList));
+  	const newTilesList = tilesList.concat(tileObj);
+  	this.setState({ tilesList: newTilesList }, () => { console.log("new tiles list:", this.state.tilesList) } );
 
-  	const newDataSourcesList = this.state.dataSourcesList.push(dataSourceObj);
-  	this.setState({ dataSourcesList: newDataSourcesList }, console.log("new data sources list:", this.state.dataSourcesList));
+  	const newDataSourcesList = this.state.dataSourcesList.concat(dataSourceObj);
+  	this.setState({ dataSourcesList: newDataSourcesList }, () => { console.log("new data sources list:", this.state.dataSourcesList) } );
 
   }
 
@@ -186,7 +189,7 @@ class TileControl extends Component {
 		this.sendData();
 
 		// pass data to App component's handleListsUpdates method
-		this.props.handleListsUpdates(this.state.tileType, this.state.dataSourceObj)
+		this.props.handleListsUpdates(this.state.selectedTileType, this.state.dataSourceObj)
 
 	}
 
@@ -224,7 +227,7 @@ class TileField extends Component {
 		event.preventDefault();
 
 		var tType = event.target.value;
-		// console.log("tile field selected type:", tType);
+		console.log("tile field selected type:", tType);
 
 		// send to TileControl parent component 
 		this.props.handleTileField(tType);	
@@ -299,8 +302,7 @@ class DataSourceField extends Component {
     handleSelectedColumns = (columnOne, columnTwo) => {
 
     	var selectedColumns = [columnOne, columnTwo];
-    	this.setState({ selectedColumnsArray: selectedColumns });
-    	this.sendToTileControl();
+    	this.setState({ selectedColumnsArray: selectedColumns }, () => { this.sendToTileControl() } );    	
 
     }
 
@@ -324,7 +326,7 @@ class DataSourceField extends Component {
 		let columnsDropdown;
 		if (this.state.currentDataSourceHeadings.length > 0) {
 			columnsDropdown = <ColumnsDropdown headings={ this.state.currentDataSourceHeadings } handleSelectedColumns={ this.handleSelectedColumns }/>
-
+			// console.log("currentDataSourceHeadings:", this.state.currentDataSourceHeadings)
 		}
 
 		return(
@@ -333,7 +335,6 @@ class DataSourceField extends Component {
 				<form className="form-inline">
 					<div className="form-group">
 						<input type="file" id="uploadedFile" className="form-control" placeholder="upload your data source" onChange={ this.handleFileUpload } />
-						<button type="submit" id="fileUploadSubmit" className="btn btn-primary">submit file</button>
 					</div>
 				</form>
 
@@ -356,15 +357,34 @@ class ColumnsDropdown extends Component {
 		// set default column values from dataSource headings
 		const colOne = this.props.headings[0];
 		const colTwo = this.props.headings[1];
-		this.setState({ columnOne: colOne});
-		this.setState({ columnTwo: colTwo });
+		this.setState({ columnOne: colOne}, () => {
+			this.setState({ columnTwo: colTwo }, () => {
+				this.sendToParent();	// send default columns to DataSourceField 
+			});		
+		});
 	}
 
 	sendToParent = () => {
 		var { columnOne, columnTwo } = this.state;
-		if (columnOne.length > 0 && columnTwo.length > 0) {
-			this.props.handleSelectedColumns(columnOne, columnTwo);	
+
+		// TASK: if validation not passed, hides add or submit button
+
+		// validation: columns cannot be empty
+		if (columnOne.length === 0 && columnTwo.length === 0) {
+			console.log("columns cannot be empty");	
+			alert("columns cannot be empty");
+			return
 		}
+
+		// validation: columns cannot be the same
+		if (columnOne === columnTwo) {
+			console.log("columns cannot be the same");
+			alert("columns cannot be the same");
+			return
+		}
+
+		console.log(`column one: ${columnOne}, columnTwo: ${columnTwo}`);
+		this.props.handleSelectedColumns(columnOne, columnTwo);	
 	}
 
 
