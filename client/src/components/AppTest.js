@@ -152,29 +152,32 @@ class TileControl extends Component {
 	  	// TASK: if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
 	  	// TASK: user can select from existing data source that will be fetched upon component mount
 		
+	  	var { selectedTileType, dataSourceObj } = this.state;
+	  	var { data, selectedColumnsArray, name, id, description } = dataSourceObj;
+
 		const baseUrl = 'http://localhost:3001';
 	  	console.log('send data');
 
 	  	// TASK BOOKMARK: validate all fields to make sure can send, maybe in separate method
-	  	if (this.state.selectedTileType.length === 0 && this.state.dataSourceObj === null) {
+	  	if (selectedTileType.length === 0 && dataSourceObj === null) {
 	  		console.log("error: can't send data");
 	  		return
 	  	}
 
 		const record = {
-			selectedTileType: this.state.selectedTileType,
-			objectsArray: this.state.dataSourceObj.data,
-			selectedColumnsArray: this.state.dataSourceObj.selectedColumnsArray,
-			dataPath: this.state.dataSourceObj.name,	// TASK: should change 
-			dataID: this.state.dataSourceObj.id,	//this.state.currentDataSourceID;
-			dataName: this.state.dataSourceObj.name,
-			dataDescription: this.state.dataSourceObj.description
+			selectedTileType: selectedTileType,
+			objectsArray: data,
+			selectedColumnsArray: selectedColumnsArray,
+			dataPath: name,	// TASK: should change 
+			dataID: id,	//this.state.currentDataSourceID;
+			dataName: name,
+			dataDescription: description
 		}
 
 		// send POST request
 		axios.post(`${baseUrl}/api/processData`, record)
 			.then(response => response.data)
-			.then(data => data)
+			.then(d => console.log(d))
 			.catch( err => console.log('error:', err));
 	}
 
