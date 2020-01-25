@@ -425,40 +425,10 @@ class ColumnsDropdown extends Component {
 
 class Submit extends Component {
 
-
-	sendData = () => {
-	  	// sends currentDataSource and user selected tile type & col headings to create tile dataset from
-
-	  	// TASK: if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
-	  	// TASK: user can select from existing data source that will be fetched upon component mount
-		
-
-	  	// TASK BOOKMARK: validate all fields to make sure can send
-
-		const baseUrl = 'http://localhost:3001';
-	  	console.log('send data');
-
-		const record = {
-			selectedTileType: this.props.selectedTileType,
-			objectsArray: this.props.dataSourceObj.data,
-			selectedColumnsArray: this.props.dataSourceObj.selectedColumnsArray,
-			dataPath: this.props.dataSourceObj.name,	// TASK: should change 
-			dataID: this.props.dataSourceObj.id,	//this.state.currentDataSourceID;
-			dataName: this.props.dataSourceObj.name,
-			dataDescription: this.props.dataSource.description
-		}
-
-		// send POST request
-		axios.post(`${baseUrl}/api/processData`, record)
-			// .then(response => response.data)
-			// .then(data => console.log("data:", data))
-			.catch( err => console.log('error:', err));
-	}
-
 	render() {
 		return(
 
-			<button className="btn btn-primary" onClick={ this.sendData }>
+			<button className="btn btn-primary">
 				SUBMIT OR ADD TILE
 			</button>
 
