@@ -220,7 +220,7 @@ class TileControl extends Component {
 
 	  	this.sendData();
 
-	  	// validateSelections( selectedTileType, selectedColumnsArray, dataset );
+	  	validateSelections( selectedTileType, selectedColumnsArray, dataset );
 	  	// const validated = validateSelections(this.state.selectedTileType, this.state.selectedColumnsArray, this.state.dataSourceObj.data);
 
 		// if (validated) {
