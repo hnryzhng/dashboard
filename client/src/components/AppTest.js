@@ -41,7 +41,9 @@ class App extends Component {
 
   	const dID = dataSourceObj.id;
   	var tilesList = this.state.tilesList;
+  	var dataSourcesList = this.state.dataSourcesList;
   	console.log("handleListsUpdates tilesList:", tilesList);
+  	console.log("handleListsUpdates dataSourcesList:", dataSourcesList);
   	console.log("tType:", tType);
   	console.log("dataSourceObj:", dataSourceObj);
 
@@ -51,6 +53,15 @@ class App extends Component {
         console.log("Tile of same type and data source already exists");
         return
       }
+    }
+
+    // validation: check if same datasource already exists
+    var dataSourceExists = false;
+    for (var i=0; i<dataSourcesList.length; i++) {
+    	if (dataSourcesList[i].id === dID ) {
+    		console.log("You've already uploaded this dataset");
+    		dataSourceExists = true;
+    	}
     }
 
 	// create current tile index based on previous tile index in list
@@ -73,8 +84,11 @@ class App extends Component {
   	const newTilesList = tilesList.concat(tileObj);
   	this.setState({ tilesList: newTilesList }, () => { console.log("new tiles list:", this.state.tilesList) } );
 
-  	const newDataSourcesList = this.state.dataSourcesList.concat(dataSourceObj);
-  	this.setState({ dataSourcesList: newDataSourcesList }, () => { console.log("new data sources list:", this.state.dataSourcesList) } );
+    if (!dataSourceExists) {
+		const newDataSourcesList = this.state.dataSourcesList.concat(dataSourceObj);
+		this.setState({ dataSourcesList: newDataSourcesList }, () => { console.log("new data sources list:", this.state.dataSourcesList) } );
+    }
+	console.log("new data sources list:", this.state.dataSourcesList);
 
   }
 
@@ -130,6 +144,7 @@ class TileControl extends Component {
 
 	state = {
 	    selectedTileType: "",
+	    selectedColumnsArray: null,
 	    dataSourceObj: null
 	}
 
@@ -139,12 +154,12 @@ class TileControl extends Component {
 
 	}
 
-	handleDataSourceField = (object) => {
+	handleDataSourceField = (object, columnsArray) => {
 
 		this.setState({ dataSourceObj: object });
+		this.setState({ selectedColumnsArray: columnsArray });
 
 	}
-
 
 	sendData = () => {
 	  	// sends currentDataSource and user selected tile type & col headings to create tile dataset from
@@ -153,12 +168,12 @@ class TileControl extends Component {
 	  	// TASK: user can select from existing data source that will be fetched upon component mount
 		
 	  	var { selectedTileType, dataSourceObj } = this.state;
-	  	var { data, selectedColumnsArray, name, id, description } = dataSourceObj;
+	  	var selectedColumnsArray = this.state.selectedColumnsArray;
+	  	var { data, name, id, description } = dataSourceObj;
 
 		const baseUrl = 'http://localhost:3001';
 	  	console.log('send data');
 
-	  	// TASK BOOKMARK: validate all fields to make sure can send, maybe in separate method
 	  	if (selectedTileType.length === 0 && dataSourceObj === null) {
 	  		console.log("error: can't send data");
 	  		return
@@ -177,7 +192,14 @@ class TileControl extends Component {
 		// send POST request
 		axios.post(`${baseUrl}/api/processData`, record)
 			.then(response => response.data)
-			.then(d => console.log(d))
+			.then(d => () => {
+				// console.log(d);
+
+				// TASK BOOKMARK: if (d.success === true)
+
+				// pass data to App component's handleListsUpdates method
+				this.props.handleListsUpdates(selectedTileType, dataSourceObj);
+			})
 			.catch( err => console.log('error:', err));
 	}
 
@@ -188,13 +210,40 @@ class TileControl extends Component {
 
 		event.preventDefault();
 
-		// BOOKMARK
-		this.sendData();
+	  	// TASK BOOKMARK 
+	  	// validate all fields to make sure can send, maybe in separate method
+	  	// maybe put in separate module file if works
 
-		// pass data to App component's handleListsUpdates method
-		this.props.handleListsUpdates(this.state.selectedTileType, this.state.dataSourceObj)
+	  	const validated = this.validateSelections(this.state.selectedTileType, this.state.selectedColumnsArray, this.state.dataSourceObj);
+
+		if (validated) {
+			this.sendData();
+		} else {
+			console.log("cannot send data");
+			return
+		}
 
 	}
+
+	validateSelections = (selectedTileType, selectedColumnsArray, dataSourceObj) => {
+
+		const dataSourceArray = dataSourceObj.data;
+
+		// use regex?
+		// convert values?
+		// to check for numbers, see if numeric string OR int; if so, then convert to int
+		
+		// const tileValueTypes = {
+			// "line": {
+				// "columnOne": ""
+			// }
+		// }
+
+
+
+		return true
+		// return false
+	};
 
 	render() {
 
@@ -315,12 +364,12 @@ class DataSourceField extends Component {
 	    	id: "test_id",	//this.state.currentDataSourceID
 	    	name: this.state.selectedFile.name,
 	    	description: "test_description",
-	    	headings: this.state.currentDataSourceHeadings,
-	    	selectedColumnsArray: this.state.selectedColumnsArray,
+	    	headings: this.state.currentDataSourceHeadings
+	    	// selectedColumnsArray: this.state.selectedColumnsArray,
     	}
 
 		// send to object to parent component TileControl
-    	this.props.handleDataSourceField(dataSourceObj);
+    	this.props.handleDataSourceField(dataSourceObj, this.state.selectedColumnsArray);
 
     }
 
