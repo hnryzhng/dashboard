@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 // import dependencies
 import axios from 'axios';
 import Papa from 'papaparse';
+import validateSelections from '../validateSelections.js';
 
 // import styles
 import '../styles.css'
@@ -214,36 +215,20 @@ class TileControl extends Component {
 	  	// validate all fields to make sure can send, maybe in separate method
 	  	// maybe put in separate module file if works
 
-	  	const validated = this.validateSelections(this.state.selectedTileType, this.state.selectedColumnsArray, this.state.dataSourceObj);
+	  	var { selectedTileType, selectedColumnsArray, dataSourceObj } = this.state;
+	  	const dataset = dataSourceObj.data;
 
-		if (validated) {
-			this.sendData();
-		} else {
-			console.log("cannot send data");
-			return
-		}
+	  	validateSelections( selectedTileType, selectedColumnsArray, dataset );
+	  	// const validated = validateSelections(this.state.selectedTileType, this.state.selectedColumnsArray, this.state.dataSourceObj.data);
 
-	}
-
-	validateSelections = (selectedTileType, selectedColumnsArray, dataSourceObj) => {
-
-		const dataSourceArray = dataSourceObj.data;
-
-		// use regex?
-		// convert values?
-		// to check for numbers, see if numeric string OR int; if so, then convert to int
-		
-		// const tileValueTypes = {
-			// "line": {
-				// "columnOne": ""
-			// }
+		// if (validated) {
+		// 	this.sendData();
+		// } else {
+		// 	console.log("cannot send data");
+		// 	return
 		// }
 
-
-
-		return true
-		// return false
-	};
+	}
 
 	render() {
 
