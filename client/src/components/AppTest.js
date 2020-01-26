@@ -218,11 +218,16 @@ class TileControl extends Component {
 	  	var { selectedTileType, selectedColumnsArray, dataSourceObj } = this.state;
 	  	const dataset = dataSourceObj.data;
 
-	  	validateSelections( selectedTileType, selectedColumnsArray, dataset );
+	  	this.sendData();
+
+	  	// validateSelections( selectedTileType, selectedColumnsArray, dataset );
 	  	// const validated = validateSelections(this.state.selectedTileType, this.state.selectedColumnsArray, this.state.dataSourceObj.data);
 
 		// if (validated) {
-		// 	this.sendData();
+		// set state of dataSourceObj.data with cleaned dataset from validateSelections
+		// this.sendData()  
+
+		
 		// } else {
 		// 	console.log("cannot send data");
 		// 	return
@@ -292,7 +297,7 @@ class DataSourceField extends Component {
     	selectedFile: null,
     	currentDataSource: null,
     	currentDataSourceHeadings: [],
-    	selectedColumnsArray: []
+    	selectedColumnsArray: {}
     }
 
     renderDataDisplay = () => {
@@ -338,8 +343,11 @@ class DataSourceField extends Component {
 
     handleSelectedColumns = (columnOne, columnTwo) => {
 
-    	var selectedColumns = [columnOne, columnTwo];
-    	this.setState({ selectedColumnsArray: selectedColumns }, () => { this.sendToTileControl() } );    	
+    	var selectedColumnsObj = {
+    							"x": columnOne,
+    							"y": columnTwo
+    						};
+    	this.setState({ selectedColumnsArray: selectedColumnsObj }, () => { this.sendToTileControl() } );    	
 
     }
 

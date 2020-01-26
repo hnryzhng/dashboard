@@ -10,6 +10,7 @@ var generateDatasets = function(objectsArray, selectedColumnsArray) {
 	for (var i=0; i<objectsArray.length; i++) {
 		var object = objectsArray[i];
 		var objectKeys = Object.keys(object);
+		var selectedColumns = Object.values(selectedColumnsArray);
 		var newObject = {};
 
 		// console.log("objects array i:", i);
@@ -25,7 +26,7 @@ var generateDatasets = function(objectsArray, selectedColumnsArray) {
 			// console.log("object keys j:", j)
 			// console.log("object key:", key);
 
-			if (selectedColumnsArray.indexOf(key) !== -1) {
+			if (selectedColumns.indexOf(key) !== -1) {
 				// if key is present in columns array
 				console.log("true");
 				newObject[key] = object[key];	// put object's key-value pair in new object
