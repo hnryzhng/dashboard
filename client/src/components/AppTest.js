@@ -168,8 +168,8 @@ class TileControl extends Component {
 	  	// TASK: if there is a currentDataSource meaning user uploaded a local file, send it; else, submit a user provided API url for data to be retrieved and processed on backend (read2json)
 	  	// TASK: user can select from existing data source that will be fetched upon component mount
 		
-	  	var { selectedTileType, dataSourceObj } = this.state;
-	  	var selectedColumnsArray = this.state.selectedColumnsArray;
+	  	var { selectedTileType, dataSourceObj, selectedColumnsArray } = this.state;
+
 	  	var { data, name, id, description } = dataSourceObj;
 
 		const baseUrl = 'http://localhost:3001';
@@ -218,9 +218,12 @@ class TileControl extends Component {
 	  	var { selectedTileType, selectedColumnsArray, dataSourceObj } = this.state;
 	  	const dataset = dataSourceObj.data;
 
-	  	this.sendData();
+	  	// console.log("handlesubmit selectedColumnsArray:", selectedColumnsArray);
 
 	  	validateSelections( selectedTileType, selectedColumnsArray, dataset );
+	  	// this.sendData();
+	  	
+
 	  	// const validated = validateSelections(this.state.selectedTileType, this.state.selectedColumnsArray, this.state.dataSourceObj.data);
 
 		// if (validated) {
@@ -347,7 +350,7 @@ class DataSourceField extends Component {
     							"x": columnOne,
     							"y": columnTwo
     						};
-    	this.setState({ selectedColumnsArray: selectedColumnsObj }, () => { this.sendToTileControl() } );    	
+    	this.setState({ selectedColumnsArray: selectedColumnsObj }, () => { this.sendToTileControl() } );
 
     }
 
