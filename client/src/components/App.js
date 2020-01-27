@@ -85,11 +85,11 @@ class App extends Component {
   	const newTilesList = tilesList.concat(tileObj);
   	this.setState({ tilesList: newTilesList }, () => { console.log("new tiles list:", this.state.tilesList) } );
 
-    if (!dataSourceExists) {
+    if (dataSourceExists === false) {
 		const newDataSourcesList = this.state.dataSourcesList.concat(dataSourceObj);
 		this.setState({ dataSourcesList: newDataSourcesList }, () => { console.log("new data sources list:", this.state.dataSourcesList) } );
     }
-	console.log("new data sources list:", this.state.dataSourcesList);
+	//console.log("new data sources list:", this.state.dataSourcesList);
 
   }
 
@@ -114,16 +114,16 @@ class App extends Component {
 
     // console.log("selected data source:", this.state.currentDataSourceID);
     
-    // let tilesDisplay;
-    // const tilesList = this.state.tilesList;
-    // if (tilesList.length > 0) {
-    // 	// calculate number of rows to be created based on num of tiles in tilesList and specified cardsInRow
-    // 	// for every row, append tiles in tileList until cardsInRow countdown reaches 0, then create new row and repeat
+    let tilesDisplay;
+    const tilesList = this.state.tilesList;
+    if (tilesList.length > 0) {
+    	// calculate number of rows to be created based on num of tiles in tilesList and specified cardsInRow
+    	// for every row, append tiles in tileList until cardsInRow countdown reaches 0, then create new row and repeat
 
-    //   tilesDisplay =  tilesList.map((tile, index) => {
-    //               return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
-    //             });
-    // }
+      tilesDisplay =  tilesList.map((tile, index) => {
+                  return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
+                });
+    }
 
     return (
       <div>
@@ -133,7 +133,7 @@ class App extends Component {
 
         <div id="tiles-container">
 
-          <TilesDisplay tilesList={ this.state.tilesList } />
+        	{ tilesDisplay }
 
         </div>
 
@@ -147,63 +147,80 @@ class App extends Component {
 class TilesDisplay extends Component {
 
 	state = {
-		tilesPerRow: 2
+		tilesPerRow: 2,
+		rowElementsList: null
 	}
 
 	render() {
 
+		// A GRID SYSTEM WHERE THERE ARE ROWS CONTAINING A NUM OF TILES SPECIFIED BY this.state.tilesPerRow
+
 	    let tilesDisplay;
 
-	    let rowsList;
+	    var rowElementsList = [];
+
 	    const tilesList = this.props.tilesList;
+	    console.log("TilesDisplay tilesList:", tilesList);
 	    if (tilesList.length > 0) {
 
-			// calculate number of rows to be created based on num of tiles in tilesList and specified tilesInRow
-			// for every row, append tiles in tileList until tilesInRow countdown reaches 0, then create new row and repeat
+			// calculate number of rows to be created based on num of tiles in tilesList and specified tilesPerRow
+			// for every row, append tiles in tileList until tilesPerRow countdown reaches 0, then create new row and repeat
 			// add tiles from list by removing the first tile in list 
 
-			var tilesInRow = this.state.tilesInRow;
-			var rowNum = Math.ceil(tilesList.length / tilesInRow);	// number of rows to be created
+			const tilesPerRow = this.state.tilesPerRow;
+			var rowNum = Math.ceil(tilesList.length / tilesPerRow);	// number of rows to be created
+			console.log("tilesPerRow:", tilesPerRow);
+			console.log("rowNum:", rowNum);
+
+			// TASK BOOKMARK: since dynamically adding tiles, need to make sure to check if 
+			// there is an existing row with a rowElementsList whose number of tiles exceeds the tilesInRow
+			// if it doesn't exceed, then add new tile to existing row element
+			// if it does, create new row and append new tile
 
 			// for every row
-			var rowCountdown = tilesInRow;
-			for (var i=0; i<rowNum; i++) {
+			var rowCountdown = tilesPerRow;
+			console.log("rowCountdown:", rowCountdown)
+			for (var i=1; i<rowNum+1; i++) {
+				console.log("------");
+				console.log("Row number:", i);
 				
 				var rowTiles = [];	// list for tiles in row 
 
-				while (rowCountdown > 1) {
+				while (rowCountdown > 0 && tilesList.length > 0) {
+					// keep adding tiles to row as long as row countdown is greater than 0 AND there are still tiles left
 
-					currentTile = tilesList.shift();	// removes first tile from list and stores in currentTile var 
+					var currentTile = tilesList.shift();	// removes first tile from list and stores in currentTile var 
+					console.log("currentTile:", currentTile);
 
-					// append current tile to current row
+					// if currentTile is not undefined
+					if (currentTile) {
+						rowTiles.push(currentTile);	// append current tile to list of tiles for row
+						console.log("rowTiles:", rowTiles);
+					}
 
-					
 					rowCountdown = rowCountdown - 1;	// countdown
-
+					console.log("rowCountdown-1:", rowCountdown);
 				} 
 
-				// reset row countdown because num of tilesInRow has been reached
-				rowCountdown = tilesInRow;
+				// reset row countdown because num of tilesPerRow has been reached
+				rowCountdown = tilesPerRow;
 
-				// create row element and attendant tiles element by passing rowTiles list
-				rowElement = `<div className='tile-row' id='row-${i+1}'>
-					{ 
-						rowTiles.map(tile, index) => {
-							<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID }/>
-						}
-					}
-				</div>`;
+				// create row element and attendant tiles by creating tile elements from tile objects in rowTiles list
+				var rowElement = <TileRow key={i} rowTiles={rowTiles}/>;
 
 				// append row element to rowsList
-				rowsList.push(rowElement);
+				rowElementsList.push(rowElement);
+				console.log("rowElement:", rowElement);
+				console.log("rowElementsList:", rowElementsList);
 
 			}
 
 			// render all row elements with appended tiles
-			tilesDisplay = null; 
-
-
-
+			if (rowElementsList.length > 0) {
+				tilesDisplay = rowElementsList.map((row, index) => {
+					return(row);
+				})
+			}
 			// tilesDisplay =  tilesList.map((tile, index) => {
 			//             return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
 			//           });
@@ -220,6 +237,31 @@ class TilesDisplay extends Component {
 
 			</div>
 
+		)
+	}
+}
+
+class TileRow extends Component {
+	render() {
+
+		let displayComponent;
+		var rowTiles = this.props.rowTiles;
+
+		if (rowTiles.length > 0) {
+			console.log("rowTiles:", rowTiles);
+			displayComponent = rowTiles.map((tileObj, index) => {
+				return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID }/>)
+			})
+		}
+
+		return(
+			
+			<div className='tile-row'>
+				{ 
+					displayComponent
+				}
+			</div>
+		
 		)
 	}
 }
@@ -254,6 +296,8 @@ class TileControl extends Component {
 	  	console.log('send data');
 		
 	  	var { selectedTileType, dataSourceObj, selectedColumnsArray } = this.state;
+	  	console.log("sendData selectedTileType:", selectedTileType);
+	  	console.log("sendData dataSourceObj:", dataSourceObj);
 
 	  	var { data, name, id, description } = dataSourceObj;
 
