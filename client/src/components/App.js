@@ -153,15 +153,63 @@ class TilesDisplay extends Component {
 	render() {
 
 	    let tilesDisplay;
+
+	    let rowsList;
 	    const tilesList = this.props.tilesList;
 	    if (tilesList.length > 0) {
 
-	    	// calculate number of rows to be created based on num of tiles in tilesList and specified tilesInRow
-	    	// for every row, append tiles in tileList until tilesInRow countdown reaches 0, then create new row and repeat
+			// calculate number of rows to be created based on num of tiles in tilesList and specified tilesInRow
+			// for every row, append tiles in tileList until tilesInRow countdown reaches 0, then create new row and repeat
+			// add tiles from list by removing the first tile in list 
 
-	      tilesDisplay =  tilesList.map((tile, index) => {
-	                  return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
-	                });
+			var tilesInRow = this.state.tilesInRow;
+			var rowNum = Math.ceil(tilesList.length / tilesInRow);	// number of rows to be created
+
+			// for every row
+			var rowCountdown = tilesInRow;
+			for (var i=0; i<rowNum; i++) {
+				
+				var rowTiles = [];	// list for tiles in row 
+
+				while (rowCountdown > 1) {
+
+					currentTile = tilesList.shift();	// removes first tile from list and stores in currentTile var 
+
+					// append current tile to current row
+
+					
+					rowCountdown = rowCountdown - 1;	// countdown
+
+				} 
+
+				// reset row countdown because num of tilesInRow has been reached
+				rowCountdown = tilesInRow;
+
+				// create row element and attendant tiles element by passing rowTiles list
+				rowElement = `<div className='tile-row' id='row-${i+1}'>
+					{ 
+						rowTiles.map(tile, index) => {
+							<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID }/>
+						}
+					}
+				</div>`;
+
+				// append row element to rowsList
+				rowsList.push(rowElement);
+
+			}
+
+			// render all row elements with appended tiles
+			tilesDisplay = null; 
+
+
+
+			// tilesDisplay =  tilesList.map((tile, index) => {
+			//             return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
+			//           });
+
+
+
 	    }
 
 		return(
