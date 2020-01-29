@@ -12,6 +12,7 @@ import validateSelections from '../validateSelections.js';
 import '../styles.css'
 
 // import components
+import Navbar from './Navbar.js';
 import Tile from './Tile.js';
 import LineChartContainer from './LineChartContainer.js';
 import { linedata, bardata } from "./mockdata.js";
@@ -31,6 +32,11 @@ class App extends Component {
 
     // if logged in
     // fetch user tiles list and data sources list from user db
+
+  }
+
+  getTileData = () => {
+    // return tile data given data source id associated with tile
 
   }
 
@@ -98,13 +104,13 @@ class App extends Component {
 
   }
 
-  reorderTiles = () => {
-    // rearrange tiles in tilesList with drag and drop implementation
+  enableTileReorder = () => {
+  	// activates event handlers to allow for drag and drop functionality
 
   }
 
-  getTileData = () => {
-    // return tile data given data source id associated with tile
+  reorderTiles = () => {
+    // rearrange tiles in tilesList with drag and drop implementation
 
   }
 
@@ -127,6 +133,8 @@ class App extends Component {
 
     return (
       <div>
+
+      	<Navbar />
 
       	<TileControl { ...this.state } handleListsUpdates={ this.handleListsUpdates }/>
 
@@ -240,6 +248,8 @@ class TilesDisplay extends Component {
 		)
 	}
 }
+
+
 
 class TileRow extends Component {
 	render() {
@@ -415,7 +425,7 @@ class TileField extends Component {
 			<div>
 
 	          <select id="tile-type" onChange={ this.selectType } >
-	            <option>Choose Tile Type</option>
+	            <option>Add Tile</option>
 	            <option value="bar">Bar Chart</option>
 	            <option value="line">Line Chart</option>
 	          </select>
