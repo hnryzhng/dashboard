@@ -55,12 +55,12 @@ class App extends Component {
   	console.log("dataSourceObj:", dataSourceObj);
 
     // validation: check to see if tile with same type and data source already exists
-    for (var i=0; i<tilesList.length; i++) {
-      if (tType === tilesList[i].tileType && dID === tilesList[i].dataSourceID) {
-        console.log("Tile of same type and data source already exists");
-        return
-      }
-    }
+    // for (var i=0; i<tilesList.length; i++) {
+      // if (tType === tilesList[i].tileType && dID === tilesList[i].dataSourceID) {
+        // console.log("Tile of same type and data source already exists");
+        // return
+      // }
+    // }
 
     // validation: check if same datasource already exists
     var dataSourceExists = false;
@@ -120,16 +120,65 @@ class App extends Component {
 
     // console.log("selected data source:", this.state.currentDataSourceID);
     
+
+    // let tilesDisplay;
+    // const tilesList = this.state.tilesList;
+    // if (tilesList.length > 0) {
+    	// calculate number of rows to be created based on num of tiles in tilesList and specified cardsInRow
+    	// for every row, append tiles in tileList until cardsInRow countdown reaches 0, then create new row and repeat
+
+      // tilesDisplay =  tilesList.map((tile, index) => {
+                  // return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
+                // });
+
+
     let tilesDisplay;
     const tilesList = this.state.tilesList;
+    var newTilesRowsList = [];
     if (tilesList.length > 0) {
     	// calculate number of rows to be created based on num of tiles in tilesList and specified cardsInRow
     	// for every row, append tiles in tileList until cardsInRow countdown reaches 0, then create new row and repeat
 
-      tilesDisplay =  tilesList.map((tile, index) => {
-                  return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
-                });
+      // tilesDisplay =  tilesList.map((tile, index) => {
+                  // return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
+                // });
+
+      // for every tile whose index is even, add row, then append it and following tile.
+	  var tilesPerRow = 3;
+      
+      for (var i=0; i<tilesList.length; i++) {
+	    console.log('---');
+	    console.log("tilesList i:", i);
+      	if (i%tilesPerRow===0) {
+	      	var rowTiles = [];
+	      	var tileObj = tilesList[i];
+	      	console.log("tileObj:", tileObj)
+	      	rowTiles.push(tileObj);
+	    	console.log("rowTiles:", rowTiles);
+	    	newTilesRowsList.push(rowTiles);
+	    } else {
+	    	var lastRowTiles = newTilesRowsList.pop(); 
+	    	console.log("lastRowTiles:", lastRowTiles)	
+	    	lastRowTiles.push(tileObj);
+	    	newTilesRowsList.push(lastRowTiles);
+	    }
+	    console.log("newTilesRowsList:", newTilesRowsList);
+
+      };
+
+    };
+
+    var forFunction = (newTilesRowsList) => {
+    	for (var i=0; i<newTilesRowsList.length; i++) {
+    		var tile = newTilesRowsList[i];
+    		console.log("rowArray i:", i);
+    		return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />);
+    	}
     }
+
+    // BOOKMARK: unable to render non-first tiles of each row
+    tilesDisplay = forFunction(newTilesRowsList);
+
 
     return (
       <div>
@@ -141,7 +190,9 @@ class App extends Component {
 
         <div id="tiles-container">
 
-        	{ tilesDisplay }
+        	<div className="row">
+	        	{ tilesDisplay }
+	        </div>
 
         </div>
 
@@ -389,7 +440,7 @@ class TileControl extends Component {
 		}
 
 		if (this.state.selectedTileType.length > 0 && this.state.dataSourceObj !== null) {
-			submitButton = 	<button className="btn btn-primary" onClick={ this.handleSubmit }> SUBMIT OR ADD TILE </button>
+			submitButton = 	<button className="btn btn-primary" onClick={ this.handleSubmit }> SUBMIT </button>
 
 		}
 
@@ -616,7 +667,7 @@ class Submit extends Component {
 		return(
 
 			<button className="btn btn-primary">
-				SUBMIT OR ADD TILE
+				SUBMIT
 			</button>
 
 		)

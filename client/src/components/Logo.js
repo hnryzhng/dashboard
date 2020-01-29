@@ -5,8 +5,8 @@ import '../styles.css';
 class Logo extends Component {
 	render() {
 		return(
-			<div>
-				<img id="logo-img" src={ require('../assets/logo1.png')} alt="" />
+			<div id="logo-container">
+				<img className="d-flex" id="logo-img" src={ require('../assets/logo1.png')} alt="" />
 			</div>
 		)		
 	}

@@ -1,16 +1,23 @@
 #navbar {
 	height: 15vh;
 	width: 100vw;
-	border: 1px solid #000;
+}
+
+#logo-container {
+	width: 100vw;
 }
 
 #logo-img {
+	margin: 0 auto;
+	width: 22em;
+}
 
+.row {
+	width: 100vw;
 }
 
 .tile {
-	height: 50vh;
-	width: 50vw;
+	padding-left: 5em;
+	padding-right: 5em;
 	background: white;
-	border: 1px solid black;
 }
