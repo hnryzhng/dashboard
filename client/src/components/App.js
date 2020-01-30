@@ -144,8 +144,6 @@ class TilesContainer extends Component {
 		currentRowIndex: 0
 	}
 
-	// TASK BOOKMARK: must be re-rendered upon update;
-
 	componentDidMount() {
 		
 		console.log("tiles container component did mount");
@@ -168,7 +166,7 @@ class TilesContainer extends Component {
 		// generate array of rows containing appropriate num of tile objects specified by tilesPerRow
 
 		var tilesList = this.props.tilesList;
-		// console.log("TilesContainer tilesList:", tilesList);
+		console.log("TilesContainer tilesList:", tilesList);
 		
 		var tilesRowsList = [];
 		var tilesPerRow = this.state.tilesPerRow;
@@ -203,25 +201,26 @@ class TilesContainer extends Component {
 		var tilesRowsList = this.state.tilesRowsList;	// load list of row arrays containing tile objects
 		tilesDisplay = tilesRowsList.map((rowArray, index) => {
 			// render each row
-			return(<div className="row tile-row">
-				{
-					rowArray.map((tileObj, j) => {
-						// render tile given tileObj in rowArray
-						return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />)
-					})
-				}
+			return(
+				<div className="row">
+				
+					{
+						rowArray.map((tileObj, j) => {
+							// render tile given tileObj in rowArray
+							return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />)
+						})
+					}
 
 				</div>)
 
 		})
 		
 		return(
-
-			<div>
-
+				
+			<div className="container-fluid">
 				{ tilesDisplay }
-
 			</div>
+
 
 		)
 	}
