@@ -12,12 +12,16 @@
 	width: 22em;
 }
 
-.row {
-
+.tile {
+	margin-left: 2em;
+	margin-right: 2em;
+	margin-bottom: 2em;
+	background: white;
 }
 
-.tile {
-	padding-left: 5em;
-	padding-right: 5em;
-	background: white;
+@media only screen and (min-width: 768px) {
+	/* for desktop and iPad */
+	.tile { 
+		width: 30vw; 
+	}
 }
