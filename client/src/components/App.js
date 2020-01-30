@@ -1,5 +1,3 @@
-// AppTest.js
-
 
 import React, { Component } from 'react';
 
@@ -118,77 +116,9 @@ class App extends Component {
 
   render() {
 
-    // console.log("selected tile type:", this.state.selectedTileType);
-
-    // console.log("selected data source:", this.state.currentDataSourceID);
-    
-
-    // let tilesDisplay;
-    // const tilesList = this.state.tilesList;
-    // if (tilesList.length > 0) {
-    	// calculate number of rows to be created based on num of tiles in tilesList and specified cardsInRow
-    	// for every row, append tiles in tileList until cardsInRow countdown reaches 0, then create new row and repeat
-
-      // tilesDisplay =  tilesList.map((tile, index) => {
-                  // return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
-                // });
-
-
-   //  let tilesDisplay;
-   //  const tilesList = this.state.tilesList;
-   //  var newTilesRowsList = this.state.newTilesRowsList;
-   //  if (tilesList.length > 0) {
-   //  	// calculate number of rows to be created based on num of tiles in tilesList and specified cardsInRow
-   //  	// for every row, append tiles in tileList until cardsInRow countdown reaches 0, then create new row and repeat
-
-   //    // tilesDisplay =  tilesList.map((tile, index) => {
-   //                // return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />)
-   //              // });
-
-   //    // for every tile whose index is even, add row, then append it and following tile.
-	  // var tilesPerRow = 3;
-      
-   //    for (var i=0; i<tilesList.length; i++) {
-	  //   console.log('---');
-	  //   console.log("tilesList i:", i);
-   //    	if (i%tilesPerRow===0) {
-	  //     	var rowTiles = [];
-	  //     	var tileObj = tilesList[i];
-	  //     	console.log("tileObj:", tileObj)
-	  //     	rowTiles.push(tileObj);
-	  //   	console.log("rowTiles:", rowTiles);
-	  //   	newTilesRowsList.push(rowTiles);
-	  //   } else {
-	  //   	var lastRowTiles = newTilesRowsList.pop(); 
-	  //   	console.log("lastRowTiles:", lastRowTiles)	
-	  //   	lastRowTiles.push(tileObj);
-	  //   	newTilesRowsList.push(lastRowTiles);
-	  //   }
-	  //   console.log("newTilesRowsList:", newTilesRowsList);
-
-   //    };
-
-	  // //this.setState({ newTilesRowsList: newTilesRowsList });
-   //  };
-
-   //  var forFunction = (newTilesRowsList) => {
-   //  	for (var i=0; i<newTilesRowsList.length; i++) {	
-   //  		var rowArray = newTilesRowsList[i];	
-   //  		console.log("newTilesRowsList i:", i);	// TASK: need to preserve state	
-   //  		console.log("rowArray:", rowArray);
-   //  		for (var j=0; j<rowArray.length; j++) {	
-	  //   		console.log("rowArray j:", j);	// TASK: preserve state
-	  //   		var tile = rowArray[j];
-	  //   		return(<Tile key={ tile.tileID } tileType={ tile.tileType } dataSource={ tile.dataSourceID } />);
-	  //   	}
-   //  	}
-   //  }
-
-   //  // BOOKMARK: unable to render non-first tiles of each row
-   //  tilesDisplay = forFunction(this.state.newTilesRowsList);
-
-
     return (
+
+
       <div>
 
       	<Navbar />
@@ -209,10 +139,9 @@ class App extends Component {
 class TilesContainer extends Component {
 
 	state = {
-		tilesList: [],
+		tilesPerRow: 2,
 		tilesRowsList: [],
-		tilesPerRow: 3
-
+		currentRowIndex: 0
 	}
 
 	// TASK BOOKMARK: must be re-rendered upon update;
@@ -229,15 +158,19 @@ class TilesContainer extends Component {
 		console.log("tiles container component did update");
 		
 		if (prevProps.tilesList !== this.props.tilesList) {
+			console.log("prev props tiles list:", prevProps.tilesList);
+			console.log("this props tiles list:", this.props.tilesList);
 			this.createTilesRows();
 		}
 	}
 
 	createTilesRows = () => {
-		console.log("CREATE TILES ROWS");
+		// generate array of rows containing appropriate num of tile objects specified by tilesPerRow
+
 		var tilesList = this.props.tilesList;
-		console.log("TilesContainer tilesList:", tilesList);
-		var tilesRowsList = this.state.tilesRowsList;
+		// console.log("TilesContainer tilesList:", tilesList);
+		
+		var tilesRowsList = [];
 		var tilesPerRow = this.state.tilesPerRow;
 		if (tilesList.length > 0) {
 			for (var i=0; i<tilesList.length; i++) {
@@ -264,37 +197,29 @@ class TilesContainer extends Component {
 
 	}
 
-	renderRows = () => {
-
-		// BOOKMARK: row on grabbing state and rendering current tile in row
-		
-		var tilesRowsList = this.state.tilesRowsList;
-
-		for (var i=0; i<tilesRowsList.length; i++) {
-			var rowArray = tilesRowsList[i];
-			console.log("tilesRowsList i:", i);
-			console.log("rowArray:", rowArray);
-			for (var j=0; j<rowArray.length; j++) {
-				console.log("rowArray j:", j);
-				return(<Row key={ i } rowArray={ rowArray } />);
-				// var tileObj = rowArray[j];
-				// return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />);
-			}
-		}
-	}
 
 	render() {
-		let showRows;
-		showRows = this.renderRows();
+		let tilesDisplay;
+		var tilesRowsList = this.state.tilesRowsList;	// load list of row arrays containing tile objects
+		tilesDisplay = tilesRowsList.map((rowArray, index) => {
+			// render each row
+			return(<div className="row tile-row">
+				{
+					rowArray.map((tileObj, j) => {
+						// render tile given tileObj in rowArray
+						return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />)
+					})
+				}
+
+				</div>)
+
+		})
 		
 		return(
 
-			
-
 			<div>
 
-				{ showRows }
-
+				{ tilesDisplay }
 
 			</div>
 
@@ -305,22 +230,19 @@ class TilesContainer extends Component {
 }
 
 class Row extends Component {
+
 	render() {
 
 		let tileDisplay;
 		tileDisplay = this.props.rowArray.map((tileObj, index) => {
-						return(("tileObj:", tileObj.tileID ));
+						return(("tileObj:", tileObj.tileType ));
 						// console.log("index:", index);
 						// return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />);
 					})
 		return(
-			<div>
+			<div className="row tile-row">
 
-				Row rowArray:
-				{
-					tileDisplay
-
-				}
+				{ tileDisplay }
 			
 			</div>
 		)
