@@ -276,8 +276,9 @@ class TilesContainer extends Component {
 			console.log("rowArray:", rowArray);
 			for (var j=0; j<rowArray.length; j++) {
 				console.log("rowArray j:", j);
-				var tileObj = rowArray[j];
-				return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />);
+				return(<Row key={ i } rowArray={ rowArray } />);
+				// var tileObj = rowArray[j];
+				// return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />);
 			}
 		}
 	}
@@ -301,6 +302,29 @@ class TilesContainer extends Component {
 	}
 
 
+}
+
+class Row extends Component {
+	render() {
+
+		let tileDisplay;
+		tileDisplay = this.props.rowArray.map((tileObj, index) => {
+						return(("tileObj:", tileObj.tileID ));
+						// console.log("index:", index);
+						// return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />);
+					})
+		return(
+			<div>
+
+				Row rowArray:
+				{
+					tileDisplay
+
+				}
+			
+			</div>
+		)
+	}
 }
 
 class TileControl extends Component {
