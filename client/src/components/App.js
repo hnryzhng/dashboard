@@ -173,17 +173,20 @@ class TilesContainer extends Component {
 		if (tilesList.length > 0) {
 			for (var i=0; i<tilesList.length; i++) {
 				if (i % tilesPerRow === 0) {
-					var rowTiles = [];
+					// console.log("rowArray i:", i);
+					var rowArray = [];
 					var tileObj = tilesList[i];
-					console.log("tileObj:", tileObj);
-					rowTiles.push(tileObj);
-					console.log("rowTiles:", rowTiles);
-					tilesRowsList.push(rowTiles);
+					// console.log("tileObj:", tileObj);
+					rowArray.push(tileObj);
+					// console.log("rowArray:", rowArray);
+					tilesRowsList.push(rowArray);
 				} else {
-					var lastRowTiles = tilesRowsList.pop();
-					console.log("lastRowTiles:", lastRowTiles);
-					lastRowTiles.push(tileObj);
-					tilesRowsList.push(lastRowTiles);
+					// console.log("rowArray i:", i);
+					var lastRowArray = tilesRowsList.pop();
+					// console.log("lastRowArray:", lastRowArray);
+					var tileObj = tilesList[i];
+					lastRowArray.push(tileObj);
+					tilesRowsList.push(lastRowArray);
 				}
 
 			}
