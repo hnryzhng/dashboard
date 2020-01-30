@@ -35,8 +35,8 @@ class Tile extends Component {
 				</div>
 		*/
 
-		console.log("Tile component tile type component", this.props.tileType);
-		console.log("Tile component:", this.state[this.props.tileType]);
+		// console.log("Tile component tile type component", this.props.tileType);
+		// console.log("Tile component:", this.state[this.props.tileType]);
 		return(
 
 			<div className="tile col-md shadow bg-white">
