@@ -12,8 +12,11 @@ import '../styles.css'
 // import components
 import Navbar from './Navbar.js';
 import Tile from './Tile.js';
-import LineChartContainer from './LineChartContainer.js';
-import { linedata, bardata } from "./mockdata.js";
+// import { linedata, bardata } from "./mockdata.js";
+
+// TASK BOOKMARK: TileDemo components from /demo dir
+
+
 
 class App extends Component {
 
