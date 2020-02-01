@@ -2,9 +2,9 @@
 
 // produce JSON object given data
 
-const fs = require('fs');
-const csvjson = require('csvjson');
-const path = require('path');
+var fs = require('fs');
+var csvjson = require('csvjson');
+var path = require('path');
 
 var convertData = require(path.join(__dirname, 'convertData.js'));
 
@@ -28,12 +28,12 @@ var csv2json = async function(dataPath) {
 
 			console.log('csvContent:', csvContent);
 
-			const jsonLinearArray = csvjson.toObject(csvContent);	// returns array of JSON objects for rows in csv
-			// console.log('JSON object from processData csv:', JSON.stringify(jsonLinearArray));
-			// console.log('type of JSON object:', typeof jsonLinearArray);
+			const objectsArray = csvjson.toObject(csvContent);	// returns array of JSON objects for rows in csv
+			// console.log('JSON object from processData csv:', JSON.stringify(objectsArray));
+			// console.log('type of JSON object:', typeof objectsArray);
 
 			// pass array to convert data for storage in db
-			convertData(jsonLinearArray);
+			convertData(objectsArray);
 
 		});
 
@@ -53,12 +53,12 @@ var read2json = function(dataPath) {
 
 	// TASK: when reading in csv or other external data, check for malicious scripts in cells
 
-	let jsonLinearArray;
+	let objectsArray;
 
 	switch(findDataType(dataPath)) {
 		case 'csv':
 			csv2json(dataPath);
-			// console.log('read2json jsonLinearArray first line:', jsonLinearArray);
+			// console.log('read2json objectsArray first line:', objectsArray);
 		case 'api':
 			break
 	}
