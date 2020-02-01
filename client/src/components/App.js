@@ -11,8 +11,11 @@ import '../styles.css'
 
 // import components
 import Navbar from './Navbar.js';
-import TileControl from './TileControl.js';
+// import TileControl from './TileControl.js';
 import TilesDisplay from './TilesDisplay.js';
+
+// import demo components
+import TileControlDemo from './demo/TileControlDemo.js';
 
 // import data
 // import { linedata, bardata } from "./mockdata.js";
@@ -26,9 +29,7 @@ class App extends Component {
   	user: null,
   	loggedIn: null,
     tilesList: [],  // [{ str tile_id, num tile_index, str tile_type, str dataSource_id, array generated_dataset, (obj tileElement) }]
-    dataSourcesList: [], // [{ str dataSource_id, str name }]
-
-    newTilesRowsList: []
+    dataSourcesList: [] // [{ str dataSource_id, str name }]
   }
 
   componentDidMount() {
@@ -126,7 +127,7 @@ class App extends Component {
 
       	<Navbar />
 
-      	<TileControl { ...this.state } handleListsUpdates={ this.handleListsUpdates }/>
+      	<TileControlDemo { ...this.state } handleListsUpdates={ this.handleListsUpdates }/>
 
         <TilesDisplay tilesList={ this.state.tilesList } />
 
