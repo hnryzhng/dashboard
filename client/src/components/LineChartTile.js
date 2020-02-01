@@ -69,7 +69,7 @@ class LineChartTile extends Component {
 
 		return(
 			<div>
-				<canvas id="line-chart" ref={ this.lineChartRef }></canvas>
+				<canvas className="line-chart" ref={ this.lineChartRef }></canvas>
 			</div>
 		)
 

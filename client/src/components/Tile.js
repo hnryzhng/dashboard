@@ -5,6 +5,10 @@ import LineChartContainer from './LineChartContainer.js';
 
 import BarChartContainer from './BarChartContainer.js';
 
+import PieChartContainer from './PieChartContainer.js';
+
+import ScatterPlotContainer from './ScatterPlotContainer.js';
+
 class Tile extends Component {
 
 	// TASK: maybe in future, don't need component files for each type of chart
@@ -12,7 +16,9 @@ class Tile extends Component {
 	// corresponding tile data/options
 	state = {
 		'line': <LineChartContainer />,
-		'bar': <BarChartContainer />
+		'bar': <BarChartContainer />,
+		'pie': <PieChartContainer />,
+		'scatter': <ScatterPlotContainer />
 	}
 
 	render(){

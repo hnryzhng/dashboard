@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 // import dependencies
 import Chart from 'chart.js';
 
-// import components
-import Tile from './Tile.js';
-
 class BarChartTile extends Component {
 	constructor(props){
 
@@ -91,7 +88,7 @@ class BarChartTile extends Component {
 		return(
 
 			<div>
-				<canvas id="bar-chart" ref={ this.barChartRef }></canvas>
+				<canvas className="bar-chart" ref={ this.barChartRef }></canvas>
 			</div>
 
 		)
