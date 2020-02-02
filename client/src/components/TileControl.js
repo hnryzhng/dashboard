@@ -166,6 +166,7 @@ class TileField extends Component {
 	            <option value="line">Line Chart</option>
 	            <option value="pie">Pie Chart</option>
 	            <option value="scatter">Scatter Plot</option>
+	            <option value="bubble">Bubble Chart</option>
 	          </select>
 
 			</div>

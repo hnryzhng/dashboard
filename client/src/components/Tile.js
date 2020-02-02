@@ -9,6 +9,8 @@ import PieChartContainer from './PieChartContainer.js';
 
 import ScatterPlotContainer from './ScatterPlotContainer.js';
 
+import BubbleChartContainer from './BubbleChartContainer.js';
+
 class Tile extends Component {
 
 	// TASK: maybe in future, don't need component files for each type of chart
@@ -18,7 +20,8 @@ class Tile extends Component {
 		'line': <LineChartContainer />,
 		'bar': <BarChartContainer />,
 		'pie': <PieChartContainer />,
-		'scatter': <ScatterPlotContainer />
+		'scatter': <ScatterPlotContainer />,
+		'bubble': <BubbleChartContainer />
 	}
 
 	render(){
