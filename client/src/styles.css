@@ -4,8 +4,12 @@ body {
 
 #navbar {
 	background-color: #fff;
-	height: 15vh;
+	height: 20vh;
 	width: 100vw;
+}
+
+#logo-img {
+	margin: 0 auto;
 }
 
 .navbar-nav {
