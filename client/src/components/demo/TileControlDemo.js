@@ -38,7 +38,7 @@ class TileControlDemo extends Component {
 	render() {
 
 		return(
-			<div>
+			<div id="tile-control">
 
 				<TileField { ...this.state } tilesList={ this.props.tilesList } handleTileField={ this.handleTileField }/>
 
@@ -75,19 +75,6 @@ class TileField extends Component {
 	          </select>
 
 			</div>
-
-		)
-	}
-}
-
-class Submit extends Component {
-
-	render() {
-		return(
-
-			<button className="btn btn-primary">
-				SUBMIT
-			</button>
 
 		)
 	}

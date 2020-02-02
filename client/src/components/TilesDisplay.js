@@ -76,22 +76,24 @@ class TilesDisplay extends Component {
 		tilesDisplay = tilesRowsList.map((rowArray, index) => {
 			// render each row
 			return(
-				<div className="row">
 				
-					{
-						rowArray.map((tileObj, j) => {
-							// render tile given tileObj in rowArray
-							return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />)
-						})
-					}
+					<div className="row">
+					
+						{
+							rowArray.map((tileObj, j) => {
+								// render tile given tileObj in rowArray
+								return(<Tile key={ tileObj.tileID } tileType={ tileObj.tileType } dataSource={ tileObj.dataSourceID } />)
+							})
+						}
 
-				</div>)
+					</div>
+			)
 
 		})
 		
 		return(
 				
-			<div className="container-fluid">
+			<div className="tiles-display container-fluid">
 				{ tilesDisplay }
 			</div>
 

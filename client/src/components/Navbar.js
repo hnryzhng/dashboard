@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Logo from './Logo.js';
+// import NavItems from './NavItems.js';
 
 import '../styles.css';
 

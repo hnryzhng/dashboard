@@ -130,7 +130,7 @@ class TileControl extends Component {
 		}
 
 		return(
-			<div>
+			<div id="tile-control">
 
 				<TileField { ...this.state } tilesList={ this.props.tilesList } handleTileField={ this.handleTileField }/>
 

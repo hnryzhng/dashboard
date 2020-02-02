@@ -8,13 +8,30 @@ body {
 	width: 100vw;
 }
 
+.navbar-nav {
+	width: 15em;
+	font-size: 1.5em;
+}
+
+.navbar-nav a:link, .navbar-nav a:visited {
+	color: #000;
+	margin-right: 2em;
+}
+
+.navbar-nav a:hover {
+	color: #0000ff;
+}
+
 #logo-container {
 	width: 100vw;
 }
 
 #logo-img {
-	margin: 0 auto;
 	width: 22em;
+}
+
+#tiles-display {
+	height: 100vh;
 }
 
 .tile {

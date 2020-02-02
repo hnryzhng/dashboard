@@ -131,7 +131,6 @@ class App extends Component {
 
         <TilesDisplay tilesList={ this.state.tilesList } />
 
-
       </div>
 
     );
