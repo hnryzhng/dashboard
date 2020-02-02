@@ -40,7 +40,11 @@ class TileControlDemo extends Component {
 		return(
 			<div className="container" id="tile-control-container">
 
-				<div className="row tile-control-row">
+				<div className="row" id="tile-control-text-row">
+					<p>This demo allows you to add tiles of selected types from the dropdown menu.</p>
+				</div>
+
+				<div className="row" id="tile-control-row">
 					
 					<TileField { ...this.state } tilesList={ this.props.tilesList } handleTileField={ this.handleTileField }/>
 
@@ -84,7 +88,7 @@ class TileField extends Component {
 class SubmitButton extends Component {
 	render() {
 		return(
-			<button className="btn btn-primary col-md-2" onClick={ this.props.handleSubmit }> Add to Display </button>
+			<button className="btn btn-success col-md-2" onClick={ this.props.handleSubmit }> Add to Display </button>
 		)
 	}
 }
