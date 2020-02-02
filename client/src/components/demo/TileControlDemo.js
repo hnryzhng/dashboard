@@ -38,12 +38,16 @@ class TileControlDemo extends Component {
 	render() {
 
 		return(
-			<div id="tile-control">
+			<div className="container" id="tile-control-container">
 
-				<TileField { ...this.state } tilesList={ this.props.tilesList } handleTileField={ this.handleTileField }/>
+				<div className="row tile-control-row">
+					
+					<TileField { ...this.state } tilesList={ this.props.tilesList } handleTileField={ this.handleTileField }/>
 
-				<button className="btn btn-primary" onClick={ this.handleSubmit }> SUBMIT </button>
+					<SubmitButton handleSubmit={ this.handleSubmit } />
 
+				</div>	
+				
 			</div>
 		)
 	}
@@ -64,20 +68,26 @@ class TileField extends Component {
 
 	render() {
 		return(
-			<div>
-
-	          <select id="tile-type" onChange={ this.selectType } >
-	            <option>Add Tile</option>
-	            <option value="bar">Bar Chart</option>
-	            <option value="line">Line Chart</option>
-	            <option value="pie">Pie Chart</option>
-	            <option value="scatter">Scatter Plot</option>
-	          </select>
-
-			</div>
+			
+          <select className="col-md-6" id="tile-type-dropdown" onChange={ this.selectType } >
+            <option>Select Tile</option>
+            <option value="bar">Bar Chart</option>
+            <option value="line">Line Chart</option>
+            <option value="pie">Pie Chart</option>
+            <option value="scatter">Scatter Plot</option>
+          </select>
 
 		)
 	}
 }
+
+class SubmitButton extends Component {
+	render() {
+		return(
+			<button className="btn btn-primary col-md-2" onClick={ this.props.handleSubmit }> Add to Display </button>
+		)
+	}
+}
+
 
 export default TileControlDemo;

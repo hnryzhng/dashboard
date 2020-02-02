@@ -30,6 +30,16 @@ body {
 	width: 22em;
 }
 
+#tile-control-container {
+	margin-top: 2em;
+}
+
+#tile-type-dropdown {
+	background-color: #fff;
+	font-size: 1.3em;
+
+}
+
 #tiles-display {
 	height: 100vh;
 }
@@ -41,6 +51,11 @@ body {
 
 @media only screen and (min-width: 768px) {
 	/* for desktop and iPad */
+
+	#tile-type-dropdown {
+		margin-right: 1.5em;
+	}
+
 	.tile { 
 		width: 30vw; 
 	}
