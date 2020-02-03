@@ -31,21 +31,25 @@ class PieChartTile extends Component {
 
 		// define chart options
 		const chartOptions = {
-			// custom options
-
-		
+			title: {
+				display: true,
+				text: 'Social media penetration by devices'
+			},
+			cutoutPercentage: 50
 		};
 
 		const chartSettings = {
 			type: 'pie',
 			data: {
 				labels: [
-					'Red',
-					'Yellow',
-					'Blue'
+					'Tablet',
+					'Mobile',
+					'Laptop'
 				],
+
 				datasets: [{
-					data: [10, 20, 30]
+					data: [10, 30, 60],
+					backgroundColor: ['#fbe555', '#2a1a5e', '#f45905'],
 				}]
 			},
 			options: chartOptions
