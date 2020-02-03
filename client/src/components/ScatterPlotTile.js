@@ -80,7 +80,7 @@ class ScatterPlotTile extends Component {
 			    yAxes: [{
 			    	scaleLabel: {
 			    		display: true,
-			    		labelString: 'Hours spent on video streaming platforms'
+			    		labelString: 'Hours watching streams'
 			    	}
 			    }]
 			}
@@ -92,7 +92,7 @@ class ScatterPlotTile extends Component {
 			data: {
 			    datasets: [{
 			    	label: 'Hours spent watching streaming video by age',
-			        pointBackgroundColor: '#02383c',
+			        pointBackgroundColor: '#602080',
 			        pointHoverBackgroundColor: '#ed5107',
 			        pointRadius: 6,
 			        data: this.state.dataArray

@@ -6,7 +6,7 @@ class Logo extends Component {
 	render() {
 		return(
 			<div id="logo-container">
-				<img className="d-flex" id="logo-img" src={ require('../assets/logo2.png')} alt="" />
+				<img className="d-flex" id="logo-img" src={ require('../assets/logo1.png')} alt="" />
 			</div>
 		)		
 	}
