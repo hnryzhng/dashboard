@@ -38,12 +38,12 @@ app.use(cors());
 
 // SERVE REACT SCRIPTS
 
-// app.use(express.static(path.join(__dirname, '/../', 'client', 'build')));	// Adds the react production build to serve react requests
+app.use(express.static(path.join(__dirname, '/../', 'client', 'build')));	// Adds the react production build to serve react requests
 
-// app.get('*', (req, res) => {
+app.get('*', (req, res) => {
 	// serve react front-end for all non-specified routes
-	// res.sendFile(path.join(__dirname, '/../', 'client', 'build', 'index.html'));
-// });
+	res.sendFile(path.join(__dirname, '/../', 'client', 'build', 'index.html'));
+});
 
 
 // ROUTES
