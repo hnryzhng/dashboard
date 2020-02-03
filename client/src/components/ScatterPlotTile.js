@@ -8,6 +8,13 @@ class ScatterPlotTile extends Component {
 
 		super(props);
 
+		this.state = {
+			dataArray: [],
+			numPoints: 10,
+			xMax: 65,
+			yMax: 24
+		}
+
 		this.scatterPlotRef = React.createRef();
 
 	}
@@ -15,15 +22,39 @@ class ScatterPlotTile extends Component {
 	componentDidMount() {
 		// executes after component renders
 
-		this.drawChart();
+		if (this.state.dataArray.length === 0) {
+			this.drawChart();
+		}
 
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps, prevState) {
 		// executes upon each update
 
-		this.drawChart();
+		if (prevState.dataArray !== this.state.dataArray) {
+			this.drawChart();
+		}
 
+	}
+
+	generateDataPoints = () => {
+
+		var dArray = this.state.dataArray;
+
+		for (var i=0; i<this.state.numPoints; i++) {
+
+			var coords = {
+				x: Math.round(Math.random() * Math.floor(this.state.xMax)),
+				y: Math.round(Math.random() * Math.floor(this.state.yMax))
+			}
+
+			dArray.push(coords);
+
+		}
+
+		console.log("scatter plot data array:", dArray);
+
+		this.setState({ dataArray: dArray });
 	}
 
 	drawChart = () => {
@@ -31,14 +62,26 @@ class ScatterPlotTile extends Component {
 		const currentChartRef = this.scatterPlotRef.current.getContext("2d");
 
 
+		// generate random data points
+		this.generateDataPoints();	// assign this.state.dataArray to chart settings below
+
 		// define chart options
 		const chartOptions = {
-			// custom options
 
 			scales: {
 			    xAxes: [{
 			        type: 'linear',
-			        position: 'bottom'
+			        position: 'bottom',
+			        scaleLabel: {
+			        	display: true,
+			        	labelString: 'Age'
+			        }
+			    }],
+			    yAxes: [{
+			    	scaleLabel: {
+			    		display: true,
+			    		labelString: 'Hours spent on video streaming platforms'
+			    	}
 			    }]
 			}
 
@@ -48,17 +91,11 @@ class ScatterPlotTile extends Component {
 			type: 'scatter',
 			data: {
 			    datasets: [{
-			        label: 'Scatter Data A',
-			        data: [{
-			            x: -10,
-			            y: 0
-			        }, {
-			            x: 0,
-			            y: 10
-			        }, {
-			            x: 10,
-			            y: 5
-			        }]
+			    	label: 'Hours spent watching streaming video by age',
+			        pointBackgroundColor: '#02383c',
+			        pointHoverBackgroundColor: '#ed5107',
+			        pointRadius: 6,
+			        data: this.state.dataArray
 			    }]
 			},
 			options: chartOptions
