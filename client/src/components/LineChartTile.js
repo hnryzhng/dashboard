@@ -40,16 +40,19 @@ class LineChartTile extends Component {
 		const chartSettings = {
 			type: 'line',
 			data: {
-			    labels: ["Mon", "Tues", "Wed"],
+			    labels: ["Jan", "Feb", "March", "April", "May", "June"],
 			    datasets: [
 			    	{
-			    		label: "Amount of Chicken",
-			        	data: [50, 40, 70]
+			    		label: "Company Revenue from Jan-June 2019",
+			    		fill: false,
+			    		borderColor: 'rgba(0,133,220,1)',
+			    		pointBackgroundColor: 'rgba(0,133,220,1)',
+			    		pointBorderWidth: 3,
+			        	data: [50, 40, 45, 70, 30, 50]
 			    	}
 			    ]
 			},
-			options: {
-			}
+			options: chartOptions
         };
 
 
