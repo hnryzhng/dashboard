@@ -11,7 +11,7 @@ router.post('/processData', (req, res) => {
 	// TASK: validation - check to see if dataSource_id exists with data's content hash/checksum
 	// if not, then store in db
 
-	processData(req.body);
+	// processData(req.body);
 	
 
 });
