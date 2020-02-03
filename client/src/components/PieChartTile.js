@@ -33,7 +33,7 @@ class PieChartTile extends Component {
 		const chartOptions = {
 			title: {
 				display: true,
-				text: 'Social media penetration by devices'
+				text: 'Social media penetration by device'
 			},
 			cutoutPercentage: 50
 		};
@@ -49,7 +49,7 @@ class PieChartTile extends Component {
 
 				datasets: [{
 					data: [10, 30, 60],
-					backgroundColor: ['#fbe555', '#2a1a5e', '#f45905'],
+					backgroundColor: ['#105e62', '#b5525c', '#6bc5d2'],
 				}]
 			},
 			options: chartOptions

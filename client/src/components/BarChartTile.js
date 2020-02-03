@@ -31,18 +31,15 @@ class BarChartTile extends Component {
 
 		// define chart options
 		const chartOptions = {
-			// custom options
-
-		
 		};
 
 		const chartSettings = {
 			type: 'bar',
 			data: {
-			    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+			    labels: ['Australia', 'Germany', 'UK', 'China', 'South Korea', 'U.S.'],
 			    datasets: [{
-			        label: '# of Votes',
-			        data: [12, 19, 3, 5, 2, 3],
+			        label: 'App sales by country',
+			        data: [8, 12, 15, 18, 25, 30],
 			        backgroundColor: [
 			            'rgba(255, 99, 132, 0.2)',
 			            'rgba(54, 162, 235, 0.2)',
