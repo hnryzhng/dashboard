@@ -37,6 +37,25 @@ class App extends Component {
     // if logged in
     // fetch user tiles list and data sources list from user db
 
+
+    // DEMO: load demo tiles
+    var demoTilesList = [
+      { 
+        tileID: "demo-pie", 
+        tileIndex: 0,
+        tileType: "pie",
+        dataSourceID: null
+      },
+      {
+        tileID: "demo-line",
+        tileIndex: 1,
+        tileType: "line",
+        dataSourceID: null
+      }
+    ]
+
+    this.setState({ tilesList: demoTilesList })
+
   }
 
   getTileData = () => {
