@@ -7,10 +7,10 @@ const path = require("path");
 
 require('dotenv').config()	// load env vars
 
-// IMPORT MY EXTERNAL MODULES
-// const moduleA = require(path.join(__dirname, "/moduleA.js"));
-// const pingHeroku = require(path.join(__dirname, '/ping-heroku.js'));
-// pingHeroku("https://<myherokuname>.herokuapp.com", millisecondsDelay);
+// PING HEROKU
+// prevent from sleeping in free tier
+const pingHeroku = require(path.join(__dirname, '/ping-heroku.js'));
+pingHeroku("https://enterprise-dash.herokuapp.com/", 1799000);	// every 1799 seconds, or almost 30 minutes (1800 sec)
 
 // INSTANTIATE APP 
 const app = express();
