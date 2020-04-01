@@ -13,6 +13,7 @@ import '../styles.css'
 import Navbar from './Navbar.js';
 // import TileControl from './TileControl.js';
 import TilesDisplay from './TilesDisplay.js';
+import Footer from './Footer.js'
 
 // import demo components
 import TileControlDemo from './demo/TileControlDemo.js';
@@ -149,6 +150,8 @@ class App extends Component {
       	<TileControlDemo { ...this.state } handleListsUpdates={ this.handleListsUpdates }/>
 
         <TilesDisplay tilesList={ this.state.tilesList } />
+
+        <Footer />
 
       </div>
 

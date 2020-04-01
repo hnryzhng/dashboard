@@ -9,8 +9,8 @@ require('dotenv').config()	// load env vars
 
 // PING HEROKU
 // prevent from sleeping in free tier
-const pingHeroku = require(path.join(__dirname, '/ping-heroku.js'));
-pingHeroku("https://enterprise-dash.herokuapp.com/", 1799000);	// every 1799 seconds, or almost 30 minutes (1800 sec)
+// const pingHeroku = require(path.join(__dirname, '/ping-heroku.js'));
+// pingHeroku("https://enterprise-dash.herokuapp.com/", 1799000);	// every 1799 seconds, or almost 30 minutes (1800 sec)
 
 // INSTANTIATE APP 
 const app = express();
