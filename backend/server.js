@@ -17,19 +17,19 @@ const app = express();
 const api_port = process.env.PORT || 3001;
 
 // DATABASE
-const dbRoute = process.env.MONGOLAB_URI;
-console.log("database route:", dbRoute);
+// const dbRoute = process.env.MONGOLAB_URI;
+// console.log("database route:", dbRoute);
 
-mongoose
-	.connect(
-		dbRoute,
-		{ 
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-	.then(() => console.log("connected to MongoDB database"))
-	.catch((err) => console.log("error connecting to MongoDB:", err));
+// mongoose
+// 	.connect(
+// 		dbRoute,
+// 		{ 
+// 			useNewUrlParser: true,
+// 			useUnifiedTopology: true
+// 		}
+// 	)
+// 	.then(() => console.log("connected to MongoDB database"))
+// 	.catch((err) => console.log("error connecting to MongoDB:", err));
 
 
 // LOAD MIDDLEWARE
